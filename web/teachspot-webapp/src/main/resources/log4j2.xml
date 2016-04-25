@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{ISO8601} %-5p [%c{0}] %m%n" />
+		</Console>
+
+		<!--This appender is used to send logs to logstash and from logstash to elastic search using Socket TCP protocol-->
+		<!--<Socket name="LOGSTASH" host="${logstash.host}" port="${logstash.port}" protocol="TCP" immediateFail="false">-->
+		<!--<PatternLayout pattern="%d{ISO8601} %-5p [%c{0}] %m%n" />-->
+		<!--</Socket>-->
+
+		<RollingFile name="FILE" fileName="${log.dir}/aom-web.log"
+					 filePattern="${log.dir}/aom-web.%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} %c: %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+			</Policies>
+			<DefaultRolloverStrategy max="30" />
+		</RollingFile>
+
+		<!-- Perf4J appenders -->
+		<RollingFile name="PERF4J" fileName="${log.dir}/aom-web_stats.log"
+					 filePattern="${log.dir}/aom-web_stats.%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<Pattern>%m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+			</Policies>
+			<DefaultRolloverStrategy max="30" />
+		</RollingFile>
+
+	</Appenders>
+
+	<Loggers>
+		<logger name="org.springframework" level="ERROR" />
+
+		<logger name="com.hazelcast.client" level="ERROR" />
+
+		<logger name="com.couchbase.client" level="ERROR" />
+
+		<logger name="net.spy.memcached" level="ERROR" />
+
+		<logger name="org.springframework.cache" level="ERROR" />
+
+		<!-- The Perf4J logger. Note that org.perf4j.TimingLogger is the value of the org.perf4j.StopWatch.DEFAULT_LOGGER_NAME constant. Also, note that additivity
+					   is set to false, which is usually what is desired - this means that timing statements will only be sent to this logger and NOT to upstream loggers. -->
+		<logger name="org.perf4j.TimingLogger" level="info" additivity="false">
+			<AppenderRef ref="PERF4J" />
+			<!--<AppenderRef ref="CONSOLE" />-->
+			<!--<AppenderRef ref="LOGSTASH" level="${logstash.log.level}" />-->
+		</logger>
+
+		<Root level="${log.level}">
+			<AppenderRef ref="${log.appender}" />
+			<!--<AppenderRef ref="LOGSTASH" level="${logstash.log.level}" />-->
+		</Root>
+	</Loggers>
+</Configuration>

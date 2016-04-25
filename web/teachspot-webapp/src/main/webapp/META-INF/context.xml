@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- Specify a JDBC datasource -->
+    <Resource url="jdbc:postgresql://${db.host}:${db.port}/${db.schema}"
+              driverClassName="org.postgresql.Driver"
+              password="${db.password}"
+              username="${db.username}"
+              removeAbandoned="true"
+              minEvictableIdleTimeMillis="30000"
+              logAbandoned="true"
+              removeAbandonedTimeout="60"
+              initialSize="5"
+              timeBetweenEvictionRunsMillis="30000"
+              validationInterval="30000"
+              testWhileIdle="true"
+              validationQuery="SELECT version()"
+              maxWait="10000"
+              maxIdle="5"
+              minIdle="1"
+              maxActive="30"
+              type="javax.sql.DataSource"
+              scope="Shareable"
+              auth="Container"
+              name="jdbc/boardgames"/>
+</Context>

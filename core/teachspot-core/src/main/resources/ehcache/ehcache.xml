@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" name="aomCache"
+		 maxBytesLocalHeap="512M" maxBytesLocalDisk="1G" updateCheck="false" monitoring="autodetect">
+	<diskStore path="java.io.tmpdir/aomCache" />
+
+	<defaultCache eternal="false" timeToIdleSeconds="1800" timeToLiveSeconds="3600" memoryStoreEvictionPolicy="LRU" statistics="false">
+		<sizeOfPolicy maxDepth="100" maxDepthExceededBehavior="abort" />
+		<persistence strategy="none" synchronousWrites="false" />
+	</defaultCache>
+	<cache name="storeProductPerWeek" timeToIdleSeconds="1800" timeToLiveSeconds="32400"
+		   maxBytesLocalHeap="40%" maxBytesLocalDisk="40%" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"
+		diskPersistent="false" overflowToDisk="false">
+		<sizeOfPolicy maxDepth="500000" maxDepthExceededBehavior="abort" />
+		<persistence strategy="localTempSwap" synchronousWrites="false" />
+	</cache>
+	<cache name="productDistance" timeToIdleSeconds="1800" timeToLiveSeconds="32400"
+		   maxBytesLocalHeap="15%" maxBytesLocalDisk="15%" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"
+		diskPersistent="false" overflowToDisk="false" >
+		<sizeOfPolicy maxDepth="500000" maxDepthExceededBehavior="abort" />
+		<persistence strategy="localTempSwap" synchronousWrites="false" />
+	</cache>
+
+	<cache name="product" timeToIdleSeconds="1800" timeToLiveSeconds="32400"
+		   maxBytesLocalHeap="10%" maxBytesLocalDisk="10%" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"
+		diskPersistent="false" overflowToDisk="false">
+		<sizeOfPolicy maxDepth="500000" maxDepthExceededBehavior="abort" />
+		<persistence strategy="localTempSwap" synchronousWrites="false" />
+	</cache>
+	<cache name="store" timeToIdleSeconds="1800" timeToLiveSeconds="32400"
+		   maxBytesLocalHeap="15%" maxBytesLocalDisk="15%" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"
+		diskPersistent="false" overflowToDisk="false">
+		<sizeOfPolicy maxDepth="500000" maxDepthExceededBehavior="abort" />
+		<persistence strategy="localTempSwap" synchronousWrites="false" />
+	</cache>
+	<cache name="category" timeToIdleSeconds="1800" timeToLiveSeconds="32400"
+		   maxBytesLocalHeap="5%" maxBytesLocalDisk="5%" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"
+		diskPersistent="false" overflowToDisk="false">
+		<sizeOfPolicy maxDepth="500000" maxDepthExceededBehavior="abort" />
+		<persistence strategy="localTempSwap" synchronousWrites="false" />
+	</cache>
+	<cache name="storeProductAttribute" timeToIdleSeconds="1800" timeToLiveSeconds="32400"
+		   maxBytesLocalHeap="15%" maxBytesLocalDisk="15%" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU">
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"
+		diskPersistent="false" overflowToDisk="false">
+		<sizeOfPolicy maxDepth="500000" maxDepthExceededBehavior="abort" />
+		<persistence strategy="localTempSwap" synchronousWrites="false" />
+	</cache>
+</ehcache>

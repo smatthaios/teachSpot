@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="classpath*:spring/spring-conf.xml"/>
+    <import resource="views.xml"/>
+
+    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+    <!-- Scans within the base package of the application for @Components to configure as beans -->
+    <!-- @Controller, @Service, @Repository, @Configuration, etc -->
+    <context:component-scan base-package="gr.teachspot.library.controller"/>
+
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <mvc:annotation-driven/>
+
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/img/**" location="/img/"/>
+    <mvc:resources mapping="/fonts/pages-icon/**" location="/fonts/pages-icon/"/>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en" />
+    </bean>
+
+    <!-- Declare the Interceptors -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+                  p:paramName="locale" />
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+                <property name="cacheSeconds" value="0"/>
+                <property name="useExpiresHeader" value="true"/>
+                <property name="useCacheControlHeader" value="true"/>
+                <property name="useCacheControlNoStore" value="true"/>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/styles/**"/>
+            <mvc:mapping path="/js/**"/>
+            <mvc:mapping path="/assets/**"/>
+            <mvc:mapping path="/img/**"/>
+            <mvc:mapping path="/fonts/pages-icon/**"/>
+            <mvc:mapping path="/index.jsp"/>
+            <bean id="webContentInterceptorImg" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+                <property name="cacheSeconds" value="86400"/>
+            </bean>
+        </mvc:interceptor>
+		<!--<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/styles/**" />
+			<mvc:exclude-mapping path="/img/**" />
+			<mvc:exclude-mapping path="/js/**" />
+			<mvc:exclude-mapping path="/**/*.html" />
+			<mvc:exclude-mapping path="/system/*" />
+			<mvc:exclude-mapping path="/users/authenticate" />
+			<bean class="gr.teachspot.library.interceptor.SecurityInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*.html" />
+			<mvc:exclude-mapping path="/login.html" />
+			<mvc:exclude-mapping path="/users/authenticate" />
+			<bean class="gr.teachspot.library.interceptor.SessionInterceptor" />
+		</mvc:interceptor>-->
+    </mvc:interceptors>
+
+</beans>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>teachspot</artifactId>
+		<groupId>gr.dreambig.teachspot</groupId>
+		<version>1.0.0</version>
+	</parent>
+
+    <artifactId>liquibase</artifactId>
+
+    <properties>
+        <liquibase.plugin.version>3.2.2</liquibase.plugin.version>
+        <jdbc.driver>org.postgresql.Driver</jdbc.driver>
+        <jdbc.url>jdbc:postgresql://${db.host}:${db.port}/${db.schema}</jdbc.url>
+        <jdbc.username>${db.username}</jdbc.username>
+        <jdbc.password>${db.password}</jdbc.password>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.plugin.version}</version>
+                <configuration>
+                    <propertyFile>${project.build.directory}\classes\liquibase.properties</propertyFile>
+                    <verbose>true</verbose>
+					<outputFileEncoding>UTF-8</outputFileEncoding>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+	<!-- Meta-data -->
+	<name>Liquibase Module</name>
+</project>

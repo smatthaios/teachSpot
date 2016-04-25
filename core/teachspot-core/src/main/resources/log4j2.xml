@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d [%p] %c{1}: %m%n" />
+		</Console>
+
+		<RollingFile name="FILE" fileName="${log.dir}/boardgame.log"
+					 filePattern="${log.dir}/boardgame.%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<Pattern>%d [%p] %c{1}: %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="30" />
+		</RollingFile>
+
+		<!-- Perf4J appenders -->
+		<RollingFile name="PERF4J" fileName="${log.dir}/boardgame_stats.log"
+					 filePattern="${log.dir}/boardgame_stats.%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<Pattern>%m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy max="30" />
+		</RollingFile>
+
+	</Appenders>
+
+	<Loggers>
+		<logger name="org.apache.commons" level="ERROR" />
+		<logger name="org.hibernate" level="ERROR" />
+		<logger name="org.springframework" level="ERROR" />
+
+		<!-- The Perf4J logger. Note that org.perf4j.TimingLogger is the value of the org.perf4j.StopWatch.DEFAULT_LOGGER_NAME constant. Also, note that additivity
+					   is set to false, which is usually what is desired - this means that timing statements will only be sent to this logger and NOT to upstream loggers. -->
+		<logger name="org.perf4j.TimingLogger" level="info" additivity="false">
+			<AppenderRef ref="PERF4J" />
+			<!--<AppenderRef ref="LOGSTASH" level="${logstash.log.level}" />-->
+		</logger>
+
+		<Root level="${log.level}">
+			<AppenderRef ref="${log.appender}" />
+		</Root>
+	</Loggers>
+</Configuration>

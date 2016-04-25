@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+	http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <jee:jndi-lookup jndi-name="jdbc/boardgames" id="dataSource" cache="true" resource-ref="true"
+                     lookup-on-startup="true"/>
+
+    <!--namedJdbcTemplate is an enhanced version of Spring's jdbcTemplateuses that uses named sql parameters.-->
+    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg>
+            <ref bean="dataSource"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven/>
+
+</beans>

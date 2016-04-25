@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_USERS_TABLE">
+        <comment>Create the f_users table.</comment>
+        <createTable tableName="f_users" remarks="This table stores the users of the application.">
+            <column autoIncrement="true" name="user_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar(50)"/>
+            <column name="password" type="varchar(50)"/>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="token" type="varchar(100)"
+                    remarks="Is used to create a password recovery url unique per user."/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
