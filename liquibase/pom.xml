@@ -13,7 +13,7 @@
     <artifactId>liquibase</artifactId>
 
     <properties>
-        <liquibase.plugin.version>3.2.2</liquibase.plugin.version>
+        <liquibase.plugin.version>3.5.0</liquibase.plugin.version>
         <jdbc.driver>org.postgresql.Driver</jdbc.driver>
         <jdbc.url>jdbc:postgresql://${db.host}:${db.port}/${db.schema}</jdbc.url>
         <jdbc.username>${db.username}</jdbc.username>

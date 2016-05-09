@@ -26,7 +26,7 @@ public interface UserService {
 	 * @throws DataException the iri data exception
 	 * @throws InvalidTemplateException the invalid template exception
 	 */
-	/*User create(String firstName, String lastName, String accountId, String email, UserRole role, UserStatus status) throws SecurityException,
+	/*User create(String firstName, String lastName, String accountId, String email, Profile role, UserStatus status) throws SecurityException,
 			IOException, DataException, ValidationException;*/
 
 	/**

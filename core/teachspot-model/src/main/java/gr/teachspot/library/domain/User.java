@@ -2,10 +2,12 @@ package gr.teachspot.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gr.teachspot.library.enumeration.UserRole;
+import gr.teachspot.library.enumeration.Profile;
 import gr.teachspot.library.enumeration.UserStatus;
 
-/** The type {@link User} represents the user entity of the application. */
+/**
+ * The type {@link User} represents the user entity of the application.
+ */
 public class User extends LoggableEntity {
 	/**
 	 * The constant serialVersionUID.
@@ -30,258 +32,172 @@ public class User extends LoggableEntity {
 	/** The Status. */
 	private UserStatus status;
 
-	/** The Account id. */
-	private String accountId;
+	/** The User's profile. */
+	private Profile profile;
 
-	/** The Role. */
-	private UserRole role;
-
-	/** The Intro enabled. */
-	private boolean introEnabled;
-
-	/**
-	 * The Default project id.
-	 */
-	private String defaultProjectId;
-
-	/**
-	 * The Username.
-	 */
+	/** The Username. */
 	private String username;
 
-	/**
-	 * The Admin.
-	 */
-	private boolean admin;
-	/**
-	 * The Account admin.
-	 */
-	private boolean accountAdmin;
-
-	/**
-	 * Gets default project id.
-	 *
-	 * @return the default project id
-	 */
-	public String getDefaultProjectId() {
-		return defaultProjectId;
-	}
-
-	/**
-	 * Sets default project id.
-	 *
-	 * @param defaultProjectId the default project id
-	 */
-	public void setDefaultProjectId(final String defaultProjectId) {
-		this.defaultProjectId = defaultProjectId;
-	}
-
-	/**
-	 * Gets username.
-	 *
-	 * @return the username
-	 */
-	public String getUsername() {
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
+    public String getUsername() {
 		return username;
 	}
 
-	/**
-	 * Sets username.
-	 *
-	 * @param username the username
-	 */
-	public void setUsername(final String username) {
+    /**
+     * Sets username.
+     *
+     * @param username the username
+     */
+    public void setUsername(final String username) {
 		this.username = username;
 	}
 
-	/**
-	 * Is intro enabled.
-	 *
-	 * @return the boolean
-	 */
-	public boolean isIntroEnabled() {
-		return introEnabled;
+    /**
+     * Check if this {@link gr.teachspot.library.domain.User user} has administration rights.
+     */
+    public boolean isAccountAdmin() {
+		return this.profile.name().equals(Profile.ADMINISTRATOR);
 	}
 
-	/**
-	 * Sets intro enabled.
-	 *
-	 * @param introEnabled the intro enabled
-	 */
-	public void setIntroEnabled(final boolean introEnabled) {
-		this.introEnabled = introEnabled;
-	}
+    /**
+     * Gets profile.
+     *
+     * @return the profile
+     */
+    public Profile getProfile() {
+        return profile;
+    }
 
-	/**
-	 * Gets role.
-	 *
-	 * @return the role
-	 */
-	public UserRole getRole() {
-		return role;
-	}
+    /**
+     * Sets profile.
+     *
+     * @param profile the profile
+     */
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 
-	public void setAdmin(final boolean admin) {
-		this.admin = admin;
-	}
-
-	public void setAccountAdmin(final boolean accountAdmin) {
-		this.accountAdmin = accountAdmin;
-	}
-
-	/**
-	 * Sets role.
-	 *
-	 * @param role the role
-	 */
-	public void setRole(final UserRole role) {
-		this.role = role;
-	}
-
-	/**
-	 * Gets account id.
-	 *
-	 * @return the account id
-	 */
-	public String getAccountId() {
-		return accountId;
-	}
-
-	/**
-	 * Sets account id.
-	 *
-	 * @param accountId the account id
-	 */
-	public void setAccountId(final String accountId) {
-		this.accountId = accountId;
-	}
-
-	/**
-	 * Gets status.
-	 *
-	 * @return the status
-	 */
-	public UserStatus getStatus() {
+    /**
+     * Gets status.
+     *
+     * @return the status
+     */
+    public UserStatus getStatus() {
 		return status;
 	}
 
-	/**
-	 * Sets status.
-	 *
-	 * @param status the status
-	 */
-	public void setStatus(final UserStatus status) {
+    /**
+     * Sets status.
+     *
+     * @param status the status
+     */
+    public void setStatus(final UserStatus status) {
 		this.status = status;
 	}
 
-	/**
-	 * Gets the firstName of the {@link User}.
-	 *
-	 * @return the firstName of the
-	 */
-	public String getFirstName() {
+    /**
+     * Gets the firstName of the {@link User}.
+     *
+     * @return the firstName of the
+     */
+    public String getFirstName() {
 		return firstName;
 	}
 
-	/**
-	 * Sets the firstName of the {@link User}.
-	 *
-	 * @param firstName the firstName of the
-	 */
-	public void setFirstName(String firstName) {
+    /**
+     * Sets the firstName of the {@link User}.
+     *
+     * @param firstName the firstName of the
+     */
+    public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	/**
-	 * Gets the lastName of the {@link User}.
-	 *
-	 * @return the lastName of the
-	 */
-	public String getLastName() {
+    /**
+     * Gets the lastName of the {@link User}.
+     *
+     * @return the lastName of the
+     */
+    public String getLastName() {
 		return lastName;
 	}
 
-	/**
-	 * Sets the lastName of the {@link User}.
-	 *
-	 * @param lastName the lastName of the
-	 */
-	public void setLastName(String lastName) {
+    /**
+     * Sets the lastName of the {@link User}.
+     *
+     * @param lastName the lastName of the
+     */
+    public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	/**
-	 * Gets the password of the {@link User}.
-	 *
-	 * @return the password of the
-	 */
-	@JsonIgnore
+    /**
+     * Gets the password of the {@link User}.
+     *
+     * @return the password of the
+     */
+    @JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
-	/**
-	 * Sets the password of the {@link User}.
-	 *
-	 * @param password the password of the
-	 */
-	@JsonProperty
+    /**
+     * Sets the password of the {@link User}.
+     *
+     * @param password the password of the
+     */
+    @JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	/**
-	 * Gets the email of the {@link User}.
-	 *
-	 * @return the email of the
-	 */
-	public String getEmail() {
+    /**
+     * Gets the email of the {@link User}.
+     *
+     * @return the email of the
+     */
+    public String getEmail() {
 		return email;
 	}
 
-	/**
-	 * Sets the email of the {@link User}.
-	 *
-	 * @param email the new email of the
-	 */
-	public void setEmail(String email) {
+    /**
+     * Sets the email of the {@link User}.
+     *
+     * @param email the new email of the
+     */
+    public void setEmail(String email) {
 		this.email = email.toLowerCase();
 	}
 
-	/**
-	 * Gets unique id, created every time {@link User} resets password.
-	 *
-	 * @return passwordToken, created every time initializes password change procedure.
-	 */
-	public String getPasswordToken() {
+    /**
+     * Gets unique id, created every time {@link User} resets password.
+     *
+     * @return passwordToken, created every time initializes password change procedure.
+     */
+    public String getPasswordToken() {
 		return passwordToken;
 	}
 
-	/**
-	 * Sets unique id, created every time {@link User} resets password.
-	 *
-	 * @param passwordToken the password token
-	 */
-	public void setPasswordToken(final String passwordToken) {
+    /**
+     * Sets unique id, created every time {@link User} resets password.
+     *
+     * @param passwordToken the password token
+     */
+    public void setPasswordToken(final String passwordToken) {
 		this.passwordToken = passwordToken;
 	}
 
-	/**
-	 * Is admin.
-	 *
-	 * @return the boolean
-	 */
-	public boolean isAdmin() {
-		return UserRole.ADMINISTRATOR.equals(role);
-	}
-
-	/**
-	 * Is account admin.
-	 *
-	 * @return the boolean
-	 */
-	public boolean isAccountAdmin() {
-		return UserRole.ACCOUNTADMIN.equals(role);
+    /**
+     * Is admin.
+     *
+     * @return the boolean
+     */
+    public boolean isAdmin() {
+		return Profile.ADMINISTRATOR.equals(profile);
 	}
 
 	/**
@@ -314,34 +230,39 @@ public class User extends LoggableEntity {
 		sb.append(", email='").append(email).append('\'');
 		sb.append(", passwordToken='").append(passwordToken).append('\'');
 		sb.append(", status=").append(status);
-		sb.append(", accountId='").append(accountId).append('\'');
-		sb.append(", role=").append(role);
-		sb.append(", introEnabled=").append(introEnabled);
-		sb.append(", defaultProjectId='").append(defaultProjectId).append('\'');
 		sb.append(", username='").append(username).append('\'');
-		sb.append(", admin=").append(admin);
-		sb.append(", accountAdmin=").append(accountAdmin);
 		sb.append('}');
 		return sb.toString();
 	}
 
-	/** {@inheritDoc} */
-	public enum FieldName implements ClassField {
-		EMAIL("email"),
-		USERNAME("username"),
-		PASSWORD_TOKEN("passwordToken");
+    /**
+     * {@inheritDoc}
+     */
+    public enum FieldName implements ClassField {
+        /**
+         * Email field name.
+         */
+        EMAIL("email"),
+        /**
+         * Username field name.
+         */
+        USERNAME("username"),
+        /**
+         * Password token field name.
+         */
+        PASSWORD_TOKEN("passwordToken");
 
 		/**
 		 * The Class field.
 		 */
 		private final String classField;
 
-		/**
-		 * Instantiates a new User field name.
-		 *
-		 * @param classField the class field
-		 */
-		FieldName(String classField) {
+        /**
+         * Instantiates a new User field name.
+         *
+         * @param classField the class field
+         */
+        FieldName(String classField) {
 			this.classField = classField;
 		}
 

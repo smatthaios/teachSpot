@@ -14,8 +14,51 @@
             <column name="password" type="varchar(50)"/>
             <column name="first_name" type="varchar(50)"/>
             <column name="last_name" type="varchar(50)"/>
+            <column name="status" type="varchar(50)"/>
             <column name="token" type="varchar(100)"
                     remarks="Is used to create a password recovery url unique per user."/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_LESSONS_TABLE">
+        <comment>Create the f_lessons table.</comment>
+        <createTable tableName="f_lessons" remarks="This table stores the lessons of the application.">
+            <column autoIncrement="true" name="lesson_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(250)"/>
+            <column name="description" type="varchar(1000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_PERMISSIONS_TABLE">
+        <comment>Create the f_permissions table.</comment>
+        <createTable tableName="f_permissions" remarks="This table stores the role permissions of the application.">
+            <column autoIncrement="true" name="permission_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTES_TABLE">
+        <comment>Create the f_user_attributes table.</comment>
+        <createTable tableName="f_user_attributes" remarks="This table stores the user attributes that differ between user profile.">
+            <column autoIncrement="true" name="user_attributes_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(250)"/>
+            <column name="value" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
+        <comment>Create the f_user_profiles table.</comment>
+        <createTable tableName="f_user_profiles" remarks="This table stores the user profiles that exist in the application.">
+            <column autoIncrement="true" name="user_profile_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(250)"/>
         </createTable>
     </changeSet>
 

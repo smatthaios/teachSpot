@@ -55,7 +55,7 @@ public class UserController extends AbstractController {
 
 		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
 
-		User user = userService.create(firstName, lastName, accountId, email, UserRole.valueOf(role), UserStatus.valueOf(status));
+		User user = userService.create(firstName, lastName, accountId, email, Profile.valueOf(role), UserStatus.valueOf(status));
 
 		stopWatch.stop(MODULE + "create");
 		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
@@ -146,7 +146,7 @@ public class UserController extends AbstractController {
 		user.setLastName(lastName);
 		user.setAccountId(accountId);
 		user.setStatus(UserStatus.valueOf(status));
-		user.setRole(UserRole.valueOf(role));
+		user.setRole(Profile.valueOf(role));
 		userService.save(user);
 
 		stopWatch.stop(MODULE + "update");

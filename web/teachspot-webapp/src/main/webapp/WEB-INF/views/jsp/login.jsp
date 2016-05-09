@@ -24,7 +24,7 @@
 
             <div class="bg-pic">
 
-                <img src="<c:url value="/img/login.jpg" />" data-src="<c:url value="/img/login.jpg" />" data-src-retina="<c:url value="/img/login.jpg"/>" alt="" style="width: 100%;" class="lazy">
+                <img src="<c:url value="/img/login.jpg" />" data-src="<c:url value="/img/login.jpg" />" data-src-retina="<c:url value="/img/login.jpg"/>" alt="" style="width: 100%; opacity: 1" class="lazy">
 
 
                 <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
