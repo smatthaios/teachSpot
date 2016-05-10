@@ -41,6 +41,16 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="admin" id="1.0.0-CREATE_F_PROFILESE">
+        <comment>Create the f_profiles table.</comment>
+        <createTable tableName="f_profiles" remarks="This table stores the profiles of the application.">
+            <column autoIncrement="true" name="profile_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTES_TABLE">
         <comment>Create the f_user_attributes table.</comment>
         <createTable tableName="f_user_attributes" remarks="This table stores the user attributes that differ between user profile.">
@@ -61,5 +71,133 @@
             <column name="name" type="varchar(250)"/>
         </createTable>
     </changeSet>
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTE_VALUES_TABLE">
+        <comment>Create the f_user_attribute_values table.</comment>
+        <createTable tableName="f_user_attribute_values" remarks="This table stores the user attribute values.">
+            <column name="user_id" type="serial"/>
+            <column name="user_attribute_id" type="serial"/>
+            <column name="value" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addPrimaryKey_F_USER_ATTRIBUTE_VALUE_TABLE">
+        <addPrimaryKey
+                       columnNames="user_id, user_attribute_id"
+                       constraintName="pk_f_user_attribute_values"
+                       tableName="f_user_attribute_values"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_ATTRIBUTE_VALUES_TABLE">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="f_user_attribute_values"
+                                 constraintName="fk_f_user_attribute_values_f_users"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_id"
+                                 referencedTableName="f_users"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_ATTRIBUTE_VALUES_TABLE">
+        <addForeignKeyConstraint baseColumnNames="user_attribute_id"
+                                 baseTableName="f_user_attribute_values"
+                                 constraintName="fk_f_user_attribute_values_f_user_attributes"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_attributes_id"
+                                 referencedTableName="f_user_attributes"/>
+    </changeSet>
+
+
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
+        <comment>Create the f_user_profiles table.</comment>
+        <createTable tableName="f_user_profiles" remarks="This table stores the user profiles.">
+            <column name="user_id" type="serial"/>
+            <column name="profile_id" type="serial"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addPrimaryKey_F_USER_PROFILES">
+        <addPrimaryKey
+                columnNames="user_id, profile_id"
+                constraintName="pk_f_user_profiles"
+                tableName="f_user_profiles"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILES">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="f_user_profiles"
+                                 constraintName="fk_f_user_profiles_f_users"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_id"
+                                 referencedTableName="f_users"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILES">
+        <addForeignKeyConstraint baseColumnNames="profile_id"
+                                 baseTableName="f_user_profiles"
+                                 constraintName="fk_f_profiles_f_user_profiles"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_attributes_id"
+                                 referencedTableName="f_profiles"/>
+    </changeSet>
+
+
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_PROFILE_PERMISSIONS">
+        <comment>Create the f_profile_permissions table.</comment>
+        <createTable tableName="f_profile_permissions" remarks="This table stores the permissions of a profile.">
+            <column name="profile_id" type="serial"/>
+            <column name="permission_id" type="serial"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addPrimaryKey_F_PROFILE_PERMISSIONS">
+        <addPrimaryKey
+                columnNames="profile_id, permission_id"
+                constraintName="pk_f_profile_permissions"
+                tableName="f_profile_permissions"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_PROFILE_PERMISSIONS">
+        <addForeignKeyConstraint baseColumnNames="profile_id"
+                                 baseTableName="f_profile_permissions"
+                                 constraintName="fk_f_profile_permissions_f_profiles"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="profile_id"
+                                 referencedTableName="f_profiles"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_PROFILE_PERMISSIONS">
+        <addForeignKeyConstraint baseColumnNames="permission_id"
+                                 baseTableName="f_profile_permissions"
+                                 constraintName="fk_f_profile_permissions_f_permissions"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="permission_id"
+                                 referencedTableName="f_permissions"/>
+    </changeSet>
+
+
+
+
+
+
 
 </databaseChangeLog>
