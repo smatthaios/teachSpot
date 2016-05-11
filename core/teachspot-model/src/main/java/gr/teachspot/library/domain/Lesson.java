@@ -3,11 +3,19 @@ package gr.teachspot.library.domain;
 /**
  * The type {@link gr.teachspot.library.domain.Lesson} represents the lesson entity of the application.
  */
-public class Lesson extends LoggableEntity {
+public class Lesson {
 
+    private Long id;
     private String name;
-
     private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * Gets name.
@@ -48,7 +56,8 @@ public class Lesson extends LoggableEntity {
     @Override
     public String toString() {
         return "Lesson{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

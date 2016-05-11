@@ -19,29 +19,33 @@ import java.sql.SQLException;
 @Repository
 public class ProfileRepositoryImpl extends AbstractRepository implements ProfileRepository {
 
-	/** {@link NamedParameterJdbcTemplate} */
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    /**
+     * {@link NamedParameterJdbcTemplate}
+     */
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	/** {@inheritDoc} */
-	@Override
-	public Profile find(Long profileId) {
-		try {
-			final MapSqlParameterSource source = new MapSqlParameterSource();
-			source.addValue("value", profileId);
-			ParameterizedRowMapper<Profile> mapper = new ParameterizedRowMapper<Profile>() {
-				@Override
-				public Profile mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-					Profile profile = new Profile();
-					profile.setId(rs.getLong(1));
-					profile.setType(ProfileType.valueOf(rs.getString(2)));
-					return profile;
-				}
-			};
-			return namedParameterJdbcTemplate.queryForObject(getSqlCommand("PROFILE.ID.SELECT"), source, mapper);
-		} catch (final Exception ex) {
-			throw new DataException(String.format("Error during getting Profile for [id:%s]",
-					profileId), ex);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Profile find(Long profileId) {
+        try {
+            final MapSqlParameterSource source = new MapSqlParameterSource();
+            source.addValue("value", profileId);
+            ParameterizedRowMapper<Profile> mapper = new ParameterizedRowMapper<Profile>() {
+                @Override
+                public Profile mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+                    Profile profile = new Profile();
+                    profile.setId(rs.getLong(1));
+                    profile.setType(ProfileType.valueOf(rs.getString(2)));
+                    return profile;
+                }
+            };
+            return namedParameterJdbcTemplate.queryForObject(getSqlCommand("PROFILE.ID.SELECT"), source, mapper);
+        } catch (final Exception ex) {
+            throw new DataException(String.format("Error during getting Profile for [id:%s]",
+                    profileId), ex);
+        }
+    }
 }

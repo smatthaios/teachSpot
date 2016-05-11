@@ -2,9 +2,18 @@ package gr.teachspot.library.domain;
 
 import gr.teachspot.library.enumeration.PermissionType;
 
-/** The enumeration Profile contains values that indicate the {@link gr.teachspot.library.domain.Profile profile's} permissions. */
+/** The enumeration Permission contains values that indicate the {@link gr.teachspot.library.domain.Profile profile's} permissions. */
 public class Permission {
+    private Long id;
     private PermissionType type;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public PermissionType getType() {
         return type;
@@ -17,7 +26,8 @@ public class Permission {
     @Override
     public String toString() {
         return "Permission{" +
-                "type=" + type +
+                "id=" + id +
+                ", type=" + type +
                 '}';
     }
 }
