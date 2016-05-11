@@ -1,9 +1,8 @@
 package gr.teachspot.library.enumeration;
 
-import java.util.List;
 
-/** The enumeration Profile contains values that indicate the {@link gr.teachspot.library.domain.User user's| role. */
-public enum Profile {
+/** The enumeration ProfileType contains values that indicate the {@link gr.teachspot.library.domain.User user's| role types. */
+public enum ProfileType {
 
 	/** This role indicates that the user is a Student. */
 	STUDENT,
@@ -15,14 +14,4 @@ public enum Profile {
 	PRIVATE_TEACHER,
 	/** This role indicates that the user is a teacher working for a school. */
 	SCHOOL_TEACHER;
-
-    private List<Permission> permissionList;
-
-    public List<Permission> getPermissionList() {
-        return permissionList;
-    }
-
-    public void setPermissionList(List<Permission> permissionList) {
-        this.permissionList = permissionList;
-    }
 }

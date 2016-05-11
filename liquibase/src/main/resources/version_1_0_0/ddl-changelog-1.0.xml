@@ -62,7 +62,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
+    <!--<changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
         <comment>Create the f_user_profiles table.</comment>
         <createTable tableName="f_user_profiles" remarks="This table stores the user profiles that exist in the application.">
             <column autoIncrement="true" name="user_profile_id" type="serial" remarks="The primary key of this table.">
@@ -70,7 +70,7 @@
             </column>
             <column name="name" type="varchar(250)"/>
         </createTable>
-    </changeSet>
+    </changeSet>-->
 
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTE_VALUES_TABLE">
         <comment>Create the f_user_attribute_values table.</comment>
@@ -100,7 +100,7 @@
                                  referencedTableName="f_users"/>
     </changeSet>
 
-    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_ATTRIBUTE_VALUES_TABLE">
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_ATTRIBUTE_VALUES_TABLE_2">
         <addForeignKeyConstraint baseColumnNames="user_attribute_id"
                                  baseTableName="f_user_attribute_values"
                                  constraintName="fk_f_user_attribute_values_f_user_attributes"
@@ -141,7 +141,7 @@
                                  referencedTableName="f_users"/>
     </changeSet>
 
-    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILES">
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILES_2">
         <addForeignKeyConstraint baseColumnNames="profile_id"
                                  baseTableName="f_user_profiles"
                                  constraintName="fk_f_profiles_f_user_profiles"
@@ -149,7 +149,7 @@
                                  initiallyDeferred="true"
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"
-                                 referencedColumnNames="user_attributes_id"
+                                 referencedColumnNames="profile_id"
                                  referencedTableName="f_profiles"/>
     </changeSet>
 
@@ -182,7 +182,7 @@
                                  referencedTableName="f_profiles"/>
     </changeSet>
 
-    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_PROFILE_PERMISSIONS">
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_PROFILE_PERMISSIONS_2">
         <addForeignKeyConstraint baseColumnNames="permission_id"
                                  baseTableName="f_profile_permissions"
                                  constraintName="fk_f_profile_permissions_f_permissions"

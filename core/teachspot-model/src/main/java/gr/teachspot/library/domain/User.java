@@ -2,7 +2,7 @@ package gr.teachspot.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gr.teachspot.library.enumeration.Profile;
+import gr.teachspot.library.enumeration.ProfileType;
 import gr.teachspot.library.enumeration.UserStatus;
 
 /**
@@ -60,7 +60,7 @@ public class User extends LoggableEntity {
      * Check if this {@link gr.teachspot.library.domain.User user} has administration rights.
      */
     public boolean isAccountAdmin() {
-		return this.profile.name().equals(Profile.ADMINISTRATOR);
+		return this.profile.getType().name().equals(ProfileType.ADMINISTRATOR);
 	}
 
     /**
@@ -197,7 +197,7 @@ public class User extends LoggableEntity {
      * @return the boolean
      */
     public boolean isAdmin() {
-		return Profile.ADMINISTRATOR.equals(profile);
+		return ProfileType.ADMINISTRATOR.equals(profile.getType());
 	}
 
 	/**

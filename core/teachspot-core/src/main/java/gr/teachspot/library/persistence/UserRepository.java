@@ -13,7 +13,7 @@ public interface UserRepository{
 	 * @param accountId
 	 * @return
 	 */
-	public List<User> findByAccount(String accountId);
+	List<User> findByAccount(String accountId);
 
 	/**
 	 * Return the {@link User} for the provided id.
@@ -21,7 +21,7 @@ public interface UserRepository{
 	 * @param userId The {@link User} id
 	 * @return The {@link User}
 	 */
-	public User find(Long userId);
+	User find(Long userId);
 
 	/**
 	 * Return the {@link User} for the provided id.
@@ -30,7 +30,7 @@ public interface UserRepository{
 	 * @param username The {@link User} username
 	 * @return The {@link User}
 	 */
-	public List<User> find(String attribute, String username);
+	List<User> find(String attribute, String username);
 
 
 	/**
@@ -39,7 +39,7 @@ public interface UserRepository{
 	 * @param user The {@link User} to be saved.
 	 * @return The {@link User}
 	 */
-	/*public User save(User user);*/
+	/*User save(User user);*/
 
 
 	/**
@@ -48,6 +48,6 @@ public interface UserRepository{
 	 * @param user The {@link User} to be saved.
 	 * @return The {@link User}
 	 */
-	public User update(User user);
+	User update(User user);
 
 }

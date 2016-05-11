@@ -3,7 +3,7 @@ package gr.teachspot.library.domain;
 import java.io.Serializable;
 
 /**
- * The type Attribute is used to depict the different attributes of a {@link gr.teachspot.library.domain.User user} depending on their {@link gr.teachspot.library.enumeration.Profile profile}.
+ * The type Attribute is used to depict the different attributes of a {@link gr.teachspot.library.domain.User user} depending on their {@link gr.teachspot.library.domain.Profile profile}.
  */
 public class Attribute extends LoggableEntity implements Serializable {
 

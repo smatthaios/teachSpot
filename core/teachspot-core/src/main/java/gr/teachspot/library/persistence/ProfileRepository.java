@@ -1,9 +1,9 @@
-package gr.teachspot.library.service;
+package gr.teachspot.library.persistence;
 
 import gr.teachspot.library.domain.Profile;
 
-/** The interface Profile service contains all the business methods related to a {@link gr.teachspot.library.domain.Profile}. */
-public interface ProfileService {
+/** The interface Profile repository contains all {@link Profile} related database actions. */
+public interface ProfileRepository {
 
     /**
      * Return the {@link Profile} for the provided id.

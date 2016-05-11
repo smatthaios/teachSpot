@@ -1,10 +1,5 @@
 package gr.teachspot.library.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import gr.teachspot.library.enumeration.Profile;
-import gr.teachspot.library.enumeration.UserStatus;
-
 /**
  * The type {@link gr.teachspot.library.domain.Lesson} represents the lesson entity of the application.
  */
