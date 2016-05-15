@@ -52,9 +52,9 @@
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTES_TABLE">
-        <comment>Create the f_user_attributes table.</comment>
-        <createTable tableName="f_user_attributes" remarks="This table stores the user attributes that differ between user profile.">
-            <column autoIncrement="true" name="user_attributes_id" type="serial" remarks="The primary key of this table.">
+        <comment>Create the f_attribute table.</comment>
+        <createTable tableName="f_attribute" remarks="This table stores the user attributes that differ between user profile.">
+            <column autoIncrement="true" name="attribute_id" type="serial" remarks="The primary key of this table.">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(250)"/>
@@ -76,14 +76,14 @@
         <comment>Create the f_user_attribute_values table.</comment>
         <createTable tableName="f_user_attribute_values" remarks="This table stores the user attribute values.">
             <column name="user_id" type="serial"/>
-            <column name="user_attribute_id" type="serial"/>
+            <column name="attribute_id" type="serial"/>
             <column name="value" type="varchar(250)"/>
         </createTable>
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-addPrimaryKey_F_USER_ATTRIBUTE_VALUE_TABLE">
         <addPrimaryKey
-                       columnNames="user_id, user_attribute_id"
+                       columnNames="user_id, attribute_id"
                        constraintName="pk_f_user_attribute_values"
                        tableName="f_user_attribute_values"/>
     </changeSet>
@@ -101,15 +101,15 @@
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_ATTRIBUTE_VALUES_TABLE_2">
-        <addForeignKeyConstraint baseColumnNames="user_attribute_id"
+        <addForeignKeyConstraint baseColumnNames="attribute_id"
                                  baseTableName="f_user_attribute_values"
                                  constraintName="fk_f_user_attribute_values_f_user_attributes"
                                  deferrable="true"
                                  initiallyDeferred="true"
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"
-                                 referencedColumnNames="user_attributes_id"
-                                 referencedTableName="f_user_attributes"/>
+                                 referencedColumnNames="attribute_id"
+                                 referencedTableName="f_attribute"/>
     </changeSet>
 
 
@@ -194,7 +194,14 @@
                                  referencedTableName="f_permissions"/>
     </changeSet>
 
+    <changeSet author="admin" id="addAdminUser">
+        <sql>INSERT INTO public.f_users(
+            email, password, first_name)
+            VALUES ('admin', '9ce4076677e353084ac30a3d09d8812b', 'admin');
 
+            <comment>Insert admin user</comment>
+        </sql>
+    </changeSet>
 
 
 

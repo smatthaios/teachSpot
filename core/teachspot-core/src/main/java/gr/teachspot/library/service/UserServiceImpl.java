@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	private EmailService emailService;*/
 
 	/** The constant PASSWORD_SALT is used for password encoding. */
-	private static final String PASSWORD_SALT = "PW_BGL";
+	private static final String PASSWORD_SALT = "PWD_TS";
 
 	private static final RegularExpression PASSWORD_PATTERN = new RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{6,13}$");
 

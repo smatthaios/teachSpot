@@ -6,8 +6,8 @@
 			<PatternLayout pattern="%d [%p] %c{1}: %m%n" />
 		</Console>
 
-		<RollingFile name="FILE" fileName="${log.dir}/boardgame.log"
-					 filePattern="${log.dir}/boardgame.%d{yyyy-MM-dd}.log">
+		<RollingFile name="FILE" fileName="${log.dir}/teachspot.log"
+					 filePattern="${log.dir}/teachspot.%d{yyyy-MM-dd}.log">
 			<PatternLayout>
 				<Pattern>%d [%p] %c{1}: %m%n</Pattern>
 			</PatternLayout>
@@ -18,8 +18,8 @@
 		</RollingFile>
 
 		<!-- Perf4J appenders -->
-		<RollingFile name="PERF4J" fileName="${log.dir}/boardgame_stats.log"
-					 filePattern="${log.dir}/boardgame_stats.%d{yyyy-MM-dd}.log">
+		<RollingFile name="PERF4J" fileName="${log.dir}/teachspot_stats.log"
+					 filePattern="${log.dir}/teachspot_stats.%d{yyyy-MM-dd}.log">
 			<PatternLayout>
 				<Pattern>%m%n</Pattern>
 			</PatternLayout>

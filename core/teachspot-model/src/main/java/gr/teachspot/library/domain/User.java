@@ -9,34 +9,50 @@ import gr.teachspot.library.enumeration.UserStatus;
  * The type {@link User} represents the user entity of the application.
  */
 public class User extends LoggableEntity {
-	/**
-	 * The constant serialVersionUID.
-	 */
-	private static final long serialVersionUID = -3492918070638942872L;
+    /**
+     * The constant serialVersionUID.
+     */
+    private static final long serialVersionUID = -3492918070638942872L;
 
-	/** The firstName of the {@link User}. */
-	private String firstName;
+    /**
+     * The firstName of the {@link User}.
+     */
+    private String firstName;
 
-	/** The lastName of the {@link User}. */
-	private String lastName;
+    /**
+     * The lastName of the {@link User}.
+     */
+    private String lastName;
 
-	/** The password of the {@link User}. */
-	private String password;
+    /**
+     * The password of the {@link User}.
+     */
+    private String password;
 
-	/** The email of the {@link User}. Used also as the {@link User user's} username. */
-	private String email;
+    /**
+     * The email of the {@link User}. Used also as the {@link User user's} username.
+     */
+    private String email;
 
-	/** Unique id, created every time {@link User} initializes password change procedure. */
-	private String passwordToken;
+    /**
+     * Unique id, created every time {@link User} initializes password change procedure.
+     */
+    private String passwordToken;
 
-	/** The Status. */
-	private UserStatus status;
+    /**
+     * The Status.
+     */
+    private UserStatus status;
 
-	/** The User's profile. */
-	private Profile profile;
+    /**
+     * The User's profile.
+     */
+    private Profile profile;
 
-	/** The Username. */
-	private String username;
+    /**
+     * The Username.
+     */
+    private String username;
 
     /**
      * Gets username.
@@ -44,8 +60,8 @@ public class User extends LoggableEntity {
      * @return the username
      */
     public String getUsername() {
-		return username;
-	}
+        return username;
+    }
 
     /**
      * Sets username.
@@ -53,15 +69,16 @@ public class User extends LoggableEntity {
      * @param username the username
      */
     public void setUsername(final String username) {
-		this.username = username;
-	}
+        this.username = username;
+    }
 
     /**
      * Check if this {@link gr.teachspot.library.domain.User user} has administration rights.
      */
     public boolean isAccountAdmin() {
-		return this.profile.getType().name().equals(ProfileType.ADMINISTRATOR);
-	}
+        //return this.profile.getType().name().equals(ProfileType.ADMINISTRATOR);
+        return true;
+    }
 
     /**
      * Gets profile.
@@ -87,8 +104,8 @@ public class User extends LoggableEntity {
      * @return the status
      */
     public UserStatus getStatus() {
-		return status;
-	}
+        return status;
+    }
 
     /**
      * Sets status.
@@ -96,8 +113,8 @@ public class User extends LoggableEntity {
      * @param status the status
      */
     public void setStatus(final UserStatus status) {
-		this.status = status;
-	}
+        this.status = status;
+    }
 
     /**
      * Gets the firstName of the {@link User}.
@@ -105,8 +122,8 @@ public class User extends LoggableEntity {
      * @return the firstName of the
      */
     public String getFirstName() {
-		return firstName;
-	}
+        return firstName;
+    }
 
     /**
      * Sets the firstName of the {@link User}.
@@ -114,8 +131,8 @@ public class User extends LoggableEntity {
      * @param firstName the firstName of the
      */
     public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+        this.firstName = firstName;
+    }
 
     /**
      * Gets the lastName of the {@link User}.
@@ -123,8 +140,8 @@ public class User extends LoggableEntity {
      * @return the lastName of the
      */
     public String getLastName() {
-		return lastName;
-	}
+        return lastName;
+    }
 
     /**
      * Sets the lastName of the {@link User}.
@@ -132,8 +149,8 @@ public class User extends LoggableEntity {
      * @param lastName the lastName of the
      */
     public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+        this.lastName = lastName;
+    }
 
     /**
      * Gets the password of the {@link User}.
@@ -141,9 +158,9 @@ public class User extends LoggableEntity {
      * @return the password of the
      */
     @JsonIgnore
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
     /**
      * Sets the password of the {@link User}.
@@ -151,9 +168,9 @@ public class User extends LoggableEntity {
      * @param password the password of the
      */
     @JsonProperty
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     /**
      * Gets the email of the {@link User}.
@@ -161,8 +178,8 @@ public class User extends LoggableEntity {
      * @return the email of the
      */
     public String getEmail() {
-		return email;
-	}
+        return email;
+    }
 
     /**
      * Sets the email of the {@link User}.
@@ -170,8 +187,8 @@ public class User extends LoggableEntity {
      * @param email the new email of the
      */
     public void setEmail(String email) {
-		this.email = email.toLowerCase();
-	}
+        this.email = email.toLowerCase();
+    }
 
     /**
      * Gets unique id, created every time {@link User} resets password.
@@ -179,8 +196,8 @@ public class User extends LoggableEntity {
      * @return passwordToken, created every time initializes password change procedure.
      */
     public String getPasswordToken() {
-		return passwordToken;
-	}
+        return passwordToken;
+    }
 
     /**
      * Sets unique id, created every time {@link User} resets password.
@@ -188,8 +205,8 @@ public class User extends LoggableEntity {
      * @param passwordToken the password token
      */
     public void setPasswordToken(final String passwordToken) {
-		this.passwordToken = passwordToken;
-	}
+        this.passwordToken = passwordToken;
+    }
 
     /**
      * Is admin.
@@ -197,43 +214,44 @@ public class User extends LoggableEntity {
      * @return the boolean
      */
     public boolean isAdmin() {
-		return ProfileType.ADMINISTRATOR.equals(profile.getType());
-	}
+        //return ProfileType.ADMINISTRATOR.equals(profile.getType());
+        return true;
+    }
 
-	/**
-	 * Checks if this {@link User} is the same with the given {@link User}. Two {@link User users} are considered the same if they have the same
-	 * email.
-	 *
-	 * @param user the {@link User} to be used in the comparison
-	 * @return true if this {@link User} has the same email with the given {@link User} or false otherwise
-	 */
-	@Override
-	@JsonIgnore
-	public boolean equals(Object user) {
-		if (((User) user).getEmail().equals(getEmail())) {
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Checks if this {@link User} is the same with the given {@link User}. Two {@link User users} are considered the same if they have the same
+     * email.
+     *
+     * @param user the {@link User} to be used in the comparison
+     * @return true if this {@link User} has the same email with the given {@link User} or false otherwise
+     */
+    @Override
+    @JsonIgnore
+    public boolean equals(Object user) {
+        if (((User) user).getEmail().equals(getEmail())) {
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Creates the string representation of the {@link gr.teachspot.library.domain.User}.
-	 *
-	 * @return String representing the {@link gr.teachspot.library.domain.User}
-	 */
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder("User{");
-		sb.append("firstName='").append(firstName).append('\'');
-		sb.append(", lastName='").append(lastName).append('\'');
-		sb.append(", password='").append(password).append('\'');
-		sb.append(", email='").append(email).append('\'');
-		sb.append(", passwordToken='").append(passwordToken).append('\'');
-		sb.append(", status=").append(status);
-		sb.append(", username='").append(username).append('\'');
-		sb.append('}');
-		return sb.toString();
-	}
+    /**
+     * Creates the string representation of the {@link gr.teachspot.library.domain.User}.
+     *
+     * @return String representing the {@link gr.teachspot.library.domain.User}
+     */
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", passwordToken='").append(passwordToken).append('\'');
+        sb.append(", status=").append(status);
+        sb.append(", username='").append(username).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 
     /**
      * {@inheritDoc}
@@ -252,10 +270,10 @@ public class User extends LoggableEntity {
          */
         PASSWORD_TOKEN("passwordToken");
 
-		/**
-		 * The Class field.
-		 */
-		private final String classField;
+        /**
+         * The Class field.
+         */
+        private final String classField;
 
         /**
          * Instantiates a new User field name.
@@ -263,13 +281,15 @@ public class User extends LoggableEntity {
          * @param classField the class field
          */
         FieldName(String classField) {
-			this.classField = classField;
-		}
+            this.classField = classField;
+        }
 
-		/** {@inheritDoc} */
-		@Override
-		public String getName() {
-			return classField;
-		}
-	}
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String getName() {
+            return classField;
+        }
+    }
 }
