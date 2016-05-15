@@ -1,17 +1,14 @@
 package gr.teachspot.library.persistence;
 
-import gr.teachspot.library.domain.User;
 import gr.teachspot.library.domain.Profile;
 import gr.teachspot.library.enumeration.ProfileType;
 import gr.teachspot.library.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * The type Profile repository impl contains all {@link Profile} related database actions.
@@ -33,7 +30,7 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("value", profileId);
-            ParameterizedRowMapper<Profile> mapper = (rs, rowNum) -> {
+            RowMapper<Profile> mapper = (rs, rowNum) -> {
                 Profile profile = new Profile();
                 profile.setId(rs.getLong(1));
                 profile.setType(ProfileType.valueOf(rs.getString(2)));

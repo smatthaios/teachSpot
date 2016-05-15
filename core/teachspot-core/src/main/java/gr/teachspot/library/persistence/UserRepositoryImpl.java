@@ -3,9 +3,9 @@ package gr.teachspot.library.persistence;
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -41,7 +41,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 		try {
 			final MapSqlParameterSource source = new MapSqlParameterSource();
 			source.addValue("value", userId);
-			ParameterizedRowMapper <User> mapper = new ParameterizedRowMapper<User>() {
+			RowMapper<User> mapper = new RowMapper<User>() {
 				@Override
 				public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
 					User user = new User();
@@ -68,7 +68,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 			final MapSqlParameterSource source = new MapSqlParameterSource();
 			source.addValue("attribute", attribute);
 			source.addValue("value", username);
-			ParameterizedRowMapper mapper = new ParameterizedRowMapper() {
+			RowMapper mapper = new RowMapper() {
 				@Override
 				public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
 					User user = new User();

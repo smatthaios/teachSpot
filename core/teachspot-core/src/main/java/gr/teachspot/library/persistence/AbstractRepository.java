@@ -30,7 +30,7 @@ public abstract class AbstractRepository {
 	}*/
 
 	/**
-	 * Retrieves a sql query by it's key from corresponding properties file. Since we are following the approach according to which we are using
+	 * Retrieves a sql query by its key from corresponding properties file. Since we are following the approach according to which we are using
 	 * QueryDSL to access the data repository, this method is considered part of the fallback scenario(direct JDBC access).
 	 *
 	 * @param key - the key

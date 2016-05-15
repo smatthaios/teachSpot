@@ -15,7 +15,7 @@ public class ProfileServiceImpl implements ProfileService {
 	/** Logger to be used */
 	private final static Logger LOG = LoggerFactory.getLogger(ProfileServiceImpl.class);
 
-	/** The User Repository. */
+	/** The Profile Repository. */
 	@Autowired
 	private ProfileRepository profileRepository;
 
