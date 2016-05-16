@@ -4,13 +4,12 @@ import gr.teachspot.library.domain.Permission;
 import gr.teachspot.library.enumeration.PermissionType;
 import gr.teachspot.library.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
  * The type Permission repository impl contains all {@link Permission} related database actions.
@@ -30,18 +29,45 @@ public class PermissionRepositoryImpl extends AbstractRepository implements Perm
 		try {
 			final MapSqlParameterSource source = new MapSqlParameterSource();
 			source.addValue("value", permissionId);
-			ParameterizedRowMapper<Permission> mapper = new ParameterizedRowMapper<Permission>() {
-				@Override
-				public Permission mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-					Permission permission = new Permission();
-					permission.setId(rs.getLong(1));
-					permission.setType(PermissionType.valueOf(rs.getString(2)));
-					return permission;
-				}
-			};
+			RowMapper<Permission> mapper = (rs, rowNum) -> {
+                Permission permission = new Permission();
+                permission.setId(rs.getLong("permission_id"));
+                permission.setType(PermissionType.valueOf(rs.getString("name")));
+                return permission;
+            };
 			return namedParameterJdbcTemplate.queryForObject(getSqlCommand("PERMISSION.ID.SELECT"), source, mapper);
 		} catch (final Exception ex) {
 			throw new DataException(String.format("Error during getting Permission for [id:%s]",
+					permissionId), ex);
+		}
+	}
+
+	@Override
+	public List<Permission> get(Long profileId) {
+		try {
+			final MapSqlParameterSource source = new MapSqlParameterSource();
+			source.addValue("value", profileId);
+			RowMapper<Permission> mapper = (rs, rowNum) -> {
+                Permission permission = new Permission();
+                permission.setId(rs.getLong("permission_id"));
+                permission.setType(PermissionType.valueOf(rs.getString("name")));
+                return permission;
+            };
+			return namedParameterJdbcTemplate.query(getSqlCommand("PERMISSION.PROFILE_ID.SELECT"), source, mapper);
+		} catch (final Exception ex) {
+			throw new DataException(String.format("Error during getting Permission for profile [id:%s]",
+					profileId), ex);
+		}
+	}
+
+	@Override
+	public int delete(Long permissionId) {
+		try {
+			final MapSqlParameterSource source = new MapSqlParameterSource();
+			source.addValue("value", permissionId);
+			return namedParameterJdbcTemplate.update(getSqlCommand("PERMISSION.DELETE"), source);
+		} catch (final Exception ex) {
+			throw new DataException(String.format("Error during deleting Permission for [id:%s]",
 					permissionId), ex);
 		}
 	}
