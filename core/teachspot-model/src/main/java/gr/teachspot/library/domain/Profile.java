@@ -1,6 +1,5 @@
 package gr.teachspot.library.domain;
 
-import gr.teachspot.library.domain.Permission;
 import gr.teachspot.library.enumeration.ProfileType;
 
 import java.util.List;
