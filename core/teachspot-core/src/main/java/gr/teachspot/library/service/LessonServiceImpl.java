@@ -22,13 +22,13 @@ public class LessonServiceImpl implements LessonService {
 
 	/** {@inheritDoc} */
 	@Override
-	public Lesson find(Long profileId) {
-		return lessonRepository.find(profileId);
+	public Lesson find(Long lessonId) {
+		return lessonRepository.find(lessonId);
 	}
 
 	@Override
-	public List<Lesson> get(Long userId) {
-		return null;
+	public List<Lesson> get(Long profileId) {
+		return lessonRepository.get(profileId);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public interface LessonService {
     Lesson find(Long lessonId);
 
     /**
-     * Returns the {@link Lesson} of the provided user id.
+     * Returns a list of {@link Lesson} of the provided profile id.
      *
      * @param profileId The id of the {@link Profile} to search with
      * @return The list of {@link Lesson}
