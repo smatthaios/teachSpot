@@ -30,7 +30,7 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
      * {@inheritDoc}
      */
     @Override
-    public Profile find(Long profileId) {
+    public Profile find(Long profileId) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("value", profileId);
@@ -43,7 +43,7 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
 
 
     @Override
-    public List<Profile> get(Long userId) {
+    public List<Profile> get(Long userId) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("value", userId);
@@ -56,7 +56,7 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
     }
 
     @Override
-    public Long save(Profile profile) {
+    public Long save(Profile profile) throws DataException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
@@ -72,7 +72,7 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
     }
 
     @Override
-    public int update(Profile profile) {
+    public int update(Profile profile) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("name", profile.getType().toString());
@@ -86,7 +86,7 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
     }
 
     @Override
-    public int delete(Long profileId) {
+    public int delete(Long profileId) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("profile_id", profileId);

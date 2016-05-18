@@ -1,8 +1,6 @@
 package gr.teachspot.library.persistence;
 
 import gr.teachspot.library.domain.Attribute;
-import gr.teachspot.library.domain.Lesson;
-import gr.teachspot.library.domain.Profile;
 import gr.teachspot.library.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -30,10 +28,10 @@ public class AttributeRepositoryImpl extends AbstractRepository implements Attri
      * {@inheritDoc}
      */
     @Override
-    public Attribute find(Long attributeId) {
+    public Attribute find(Long attributeId) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("value", attributeId);
+            source.addValue("attribute_id", attributeId);
             return namedParameterJdbcTemplate.queryForObject(getSqlCommand("ATTRIBUTE.ID.SELECT"), source, getAttributeRowMapper());
         } catch (final Exception ex) {
             throw new DataException(String.format("Error during getting Attribute for [id:%s]",
@@ -41,24 +39,31 @@ public class AttributeRepositoryImpl extends AbstractRepository implements Attri
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public List<Attribute> get(Long userId) {
+    public List<Attribute> get(Long userId) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("value", userId);
+            source.addValue("user_id", userId);
             return namedParameterJdbcTemplate.query(getSqlCommand("ATTRIBUTE.USER_ID.SELECT"), source, getAttributeRowMapper());
         } catch (final Exception ex) {
-            throw new DataException(String.format("Error during getting Attribute for [id:%s]",
+            throw new DataException(String.format("Error while getting attributes for User[id:%s]",
                     userId), ex);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Long save(Attribute attribute) {
+    public Long save(Attribute attribute) throws DataException{
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("value", attribute);
+            source.addValue("name", attribute.getName());
+            source.addValue("value", attribute.getValue());
 
             namedParameterJdbcTemplate.update(getSqlCommand("ATTRIBUTE.INSERT"), source, keyHolder);
         } catch (final Exception ex) {
@@ -69,23 +74,29 @@ public class AttributeRepositoryImpl extends AbstractRepository implements Attri
         return (Long)keyHolder.getKey();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int update(Attribute attribute) {
+    public int update(Attribute attribute) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
-            source.addValue("name", profile.getType().toString());
+            source.addValue("name", attribute.getName());
+            source.addValue("value", attribute.getValue());
             source.addValue("attribute_id", attribute.getId());
-            source.addValue("value", attribute);
 
             return namedParameterJdbcTemplate.update(getSqlCommand("ATTRIBUTE.UPDATE"), source);
         } catch (final Exception ex) {
-            throw new DataException(String.format("Error while updating Profile [id:%s]",
-                    profile.getId()), ex);
+            throw new DataException(String.format("Error while updating Attribute [id:%s]",
+                    attribute.getId()), ex);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int delete(Long attributeId) {
+    public int delete(Long attributeId) throws DataException {
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("attribute_id", attributeId);
@@ -101,7 +112,7 @@ public class AttributeRepositoryImpl extends AbstractRepository implements Attri
     private RowMapper<Attribute> getAttributeRowMapper() {
         return (rs, rowNum) -> {
                     Attribute attribute = new Attribute();
-                    attribute.setId(rs.getLong("user_attributes_id"));
+                    attribute.setId(rs.getLong("attribute_id"));
                     attribute.setName(rs.getString("name"));
                     attribute.setValue(rs.getString("value"));
                     return attribute;

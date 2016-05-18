@@ -3,7 +3,7 @@ package gr.teachspot.library.exception;
 import gr.teachspot.library.enumeration.FaultReason;
 
 /** The {@link ApplicationException} is the parent exception for this application. All application specific exceptions MUST extend this class. */
-public class ApplicationException extends RuntimeException {
+public class ApplicationException extends RuntimeException { //Exception
 	/** The serial version unique identifier. */
 	private static final long serialVersionUID = 8950175273639927330L;
 
