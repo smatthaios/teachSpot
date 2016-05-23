@@ -89,6 +89,7 @@ public class UserServiceImpl implements UserService {
 	/** {@inheritDoc} */
 	@Override
 	public User find(String username) throws UserNotFoundException {
+        //return userRepository.find(username);
 		return new User();
 	}
 
