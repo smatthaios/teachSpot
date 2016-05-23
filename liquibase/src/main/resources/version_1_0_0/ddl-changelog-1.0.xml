@@ -62,16 +62,6 @@
         </createTable>
     </changeSet>
 
-    <!--<changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
-        <comment>Create the f_user_profiles table.</comment>
-        <createTable tableName="f_user_profiles" remarks="This table stores the user profiles that exist in the application.">
-            <column autoIncrement="true" name="user_profile_id" type="serial" remarks="The primary key of this table.">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(250)"/>
-        </createTable>
-    </changeSet>-->
-
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTE_VALUES_TABLE">
         <comment>Create the f_user_attribute_values table.</comment>
         <createTable tableName="f_user_attribute_values" remarks="This table stores the user attribute values.">
@@ -112,13 +102,13 @@
                                  referencedTableName="f_attribute"/>
     </changeSet>
 
-
-
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
         <comment>Create the f_user_profiles table.</comment>
         <createTable tableName="f_user_profiles" remarks="This table stores the user profiles.">
             <column name="user_id" type="serial"/>
             <column name="profile_id" type="serial"/>
+            <column name="token" type="varchar(100)"
+                    remarks="Is used to create a pair url unique per profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
         </createTable>
     </changeSet>
 
@@ -199,7 +189,7 @@
             email, password, first_name)
             VALUES ('admin', '9ce4076677e353084ac30a3d09d8812b', 'admin');
 
-            <comment>Insert admin user</comment>
+            <comment>Insert admin user (password: admin)</comment>
         </sql>
     </changeSet>
 
