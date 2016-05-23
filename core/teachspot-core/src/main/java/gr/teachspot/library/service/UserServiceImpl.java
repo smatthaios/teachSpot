@@ -86,6 +86,12 @@ public class UserServiceImpl implements UserService {
 		return userRepository.update(user);
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public User find(String username) throws UserNotFoundException {
+		return new User();
+	}
+
 	/**
 	 * Encodes the given password key using MD5 hash encoder.
 	 *
