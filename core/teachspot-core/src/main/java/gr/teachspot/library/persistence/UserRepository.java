@@ -27,10 +27,10 @@ public interface UserRepository{
 	 * Return the {@link User} for the provided id.
 	 *
 	 * @param attribute The attribute of the {@link User} to search with
-	 * @param username The {@link User} username
-	 * @return The {@link User}
+	 * @param value The value of the attribute with which we want to retrieve {@link User users}
+	 * @return A {@link List} of {@link User users} of which the attribute value matches the one provided.
 	 */
-	List<User> find(String attribute, String username);
+	List<User> find(String attribute, String value);
 
 
 	/**
