@@ -1,9 +1,12 @@
 package gr.teachspot.library.service;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
+import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.enumeration.FaultReason;
+import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.enumeration.UserStatus;
+import gr.teachspot.library.exception.LessonNotFoundException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.UserNotFoundException;
 import gr.teachspot.library.exception.ValidationException;
@@ -31,6 +34,14 @@ public class UserServiceImpl implements UserService {
 	/** The User Repository. */
 	@Autowired
 	private UserRepository userRepository;
+
+	/** The User Service. */
+	@Autowired
+	private UserService userService;
+
+	/** The User Service. */
+	@Autowired
+	private LessonService lessonService;
 
 	/*@Autowired
 	private EmailService emailService;*/
@@ -72,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.find(userId);
 
 		if (user == null) {
-			throw new SecurityException(String.format("User wasn't found for [id:%s].", userId), FaultReason.USER_NOT_FOUND);
+			throw new UserNotFoundException(String.format("User wasn't found for [id:%s].", userId));
 		}
 
 		return user;
@@ -88,6 +99,15 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return users.get(0);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public void pairRequest(Long userId, Long lessonId) throws LessonNotFoundException, UserNotFoundException{
+		User user = userService.find(userId);
+		Lesson lesson = lessonService.find(userId);
+
+        //emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
 	}
 
 	/** {@inheritDoc} */

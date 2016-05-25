@@ -1,9 +1,11 @@
 package gr.teachspot.library.service;
 
+import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.exception.IOException;
 import gr.teachspot.library.exception.InvalidTemplateException;
+import gr.teachspot.library.exception.LessonNotFoundException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.UserNotFoundException;
 import gr.teachspot.library.exception.ValidationException;
@@ -109,6 +111,8 @@ public interface UserService {
 	 *
 	 * @param userId The {@link User} id
 	 * @return The {@link User}
+     *
+     * @throws UserNotFoundException If the {@link User user} wasn't found
 	 */
 	User find(Long userId) throws UserNotFoundException;
 
@@ -117,6 +121,19 @@ public interface UserService {
 	 *
 	 * @param username The {@link User} username
 	 * @return The {@link User}
+     *
+     * @throws UserNotFoundException If the {@link User user} wasn't found
 	 */
 	User find(String username) throws UserNotFoundException;
+
+    /**
+     * Sends a pair request for the {@link Lesson lesson} to the {@link User user}.
+     *
+     * @param userId The {@link User} id of the {@link User user} we want to pair
+     * @param lessonId The {@link Lesson} id of the {@link Lesson lesson} to pair with
+     *
+     * @throws UserNotFoundException If the {@link User user} wasn't found
+     * @throws LessonNotFoundException If the {@link Lesson lesson} wasn't found
+     */
+	void pairRequest(Long userId, Long lessonId);
 }
