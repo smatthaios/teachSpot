@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +118,32 @@ public class UserController extends AbstractController {
 		User user = userService.update(userId, firstName, lastName);
 
 		stopWatch.stop(MODULE + "updateProfile");
+		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
+	}
+
+	@RequestMapping(value = "{userId}", method = RequestMethod.GET)
+	public Response<User> find(@PathVariable final Long userId) throws
+			DataException {
+		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
+
+		LOGGER.info("Find User[id:{}] by Id]", userId);
+
+		User user = userService.find(userId);
+
+		stopWatch.stop(MODULE + "find");
+		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public Response<User> find(@RequestParam("username") final String username) throws
+			DataException {
+		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
+
+		LOGGER.info("Find User[id:{}] by username]", username);
+
+		User user = userService.find(username);
+
+		stopWatch.stop(MODULE + "find");
 		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
 	}
 

@@ -7,9 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,16 +20,10 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	/**
-	 * Instantiates a new User repository impl.
-	 */
-	public UserRepositoryImpl() {
-	}
-
 	/** {@inheritDoc} */
 	@Override
 	public List<User> findByAccount(String accountId) {
-		return new ArrayList<User>();
+		return new ArrayList<>();
 	}
 
 	/** {@inheritDoc} */
@@ -41,20 +32,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 		try {
 			final MapSqlParameterSource source = new MapSqlParameterSource();
 			source.addValue("value", userId);
-			RowMapper<User> mapper = new RowMapper<User>() {
-				@Override
-				public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-					User user = new User();
-					user.setId(rs.getString(1));
-					user.setEmail(rs.getString(2));
-					user.setPassword(rs.getString(3));
-					user.setFirstName(rs.getString(4));
-					user.setLastName(rs.getString(5));
-					user.setPasswordToken(rs.getString(6));
-					return user;
-				}
-			};
-			return namedParameterJdbcTemplate.queryForObject(getSqlCommand("USER.ID.SELECT"), source, mapper);
+			return namedParameterJdbcTemplate.queryForObject(getSqlCommand("USER.ID.SELECT"), source, getUserRowMapper());
 		} catch (final Exception ex) {
 			throw new DataException(String.format("Error during getting User for [id:%s]",
 					userId), ex);
@@ -63,28 +41,14 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 
 	/** {@inheritDoc} */
 	@Override
-	public List<User> find(String attribute, String username) {
+	public List<User> find(String attribute, String value) {
 		try {
 			final MapSqlParameterSource source = new MapSqlParameterSource();
-			source.addValue("attribute", attribute);
-			source.addValue("value", username);
-			RowMapper mapper = new RowMapper() {
-				@Override
-				public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-					User user = new User();
-					user.setId(rs.getString(1));
-					user.setEmail(rs.getString(2));
-					user.setPassword(rs.getString(3));
-					user.setFirstName(rs.getString(4));
-					user.setLastName(rs.getString(5));
-					user.setPasswordToken(rs.getString(6));
-					return user;
-				}
-			};
-			return namedParameterJdbcTemplate.query(getSqlCommand("USER.ATTRIBUTE.SELECT"), source, mapper);
+			source.addValue("value", value);
+			return namedParameterJdbcTemplate.query(getSqlCommand("USER.ATTRIBUTE.SELECT").replace(":attribute", attribute), source, getUserRowMapper());
 		} catch (final Exception ex) {
-			throw new DataException(String.format("Error during getting User for [username:%s] and [attribute:%s]",
-					username, attribute), ex);
+			throw new DataException(String.format("Error during retrieving Users with [attribute:%s] and [value:%s]",
+                    attribute, value), ex);
 		}
 	}
 
@@ -105,5 +69,18 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 		}
 
 		return user;
+	}
+
+	private RowMapper<User> getUserRowMapper() {
+		return (rs, rowNum) -> {
+			User user = new User();
+			user.setId(rs.getString(1));
+			user.setEmail(rs.getString(2));
+			user.setPassword(rs.getString(3));
+			user.setFirstName(rs.getString(4));
+			user.setLastName(rs.getString(5));
+			user.setPasswordToken(rs.getString(6));
+			return user;
+		};
 	}
 }

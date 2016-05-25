@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 /** The type User service impl contains all the business methods related to a {@link User}. */
@@ -75,6 +76,18 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return user;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public User find(String username) throws UserNotFoundException {
+		List<User> users = userRepository.find(User.FieldName.EMAIL.name(), username.toLowerCase());
+
+		if (users == null || users.size() == 0 || users.get(0) == null) {
+			throw new SecurityException(String.format("User wasn't found for [username:%s].", username), FaultReason.USER_NOT_FOUND);
+		}
+
+		return users.get(0);
 	}
 
 	/** {@inheritDoc} */

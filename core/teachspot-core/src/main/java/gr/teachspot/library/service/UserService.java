@@ -111,4 +111,12 @@ public interface UserService {
 	 * @return The {@link User}
 	 */
 	User find(Long userId) throws UserNotFoundException;
+
+	/**
+	 * Return the {@link User} for the provided username.
+	 *
+	 * @param username The {@link User} username
+	 * @return The {@link User}
+	 */
+	User find(String username) throws UserNotFoundException;
 }
