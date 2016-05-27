@@ -37,14 +37,11 @@ public class UserServiceImpl implements UserService {
 
 	/** The User Service. */
 	@Autowired
-	private UserService userService;
-
-	/** The User Service. */
-	@Autowired
 	private LessonService lessonService;
 
-	/*@Autowired
-	private EmailService emailService;*/
+	/** The Email Service. */
+	@Autowired
+	private EmailService emailService;
 
 	/** The constant PASSWORD_SALT is used for password encoding. */
 	private static final String PASSWORD_SALT = "PWD_TS";
@@ -104,10 +101,10 @@ public class UserServiceImpl implements UserService {
 	/** {@inheritDoc} */
 	@Override
 	public void pairRequest(Long userId, Long lessonId) throws LessonNotFoundException, UserNotFoundException{
-		User user = userService.find(userId);
+		User user = find(userId);
 		Lesson lesson = lessonService.find(userId);
 
-        //emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
+        emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
 	}
 
 	/** {@inheritDoc} */

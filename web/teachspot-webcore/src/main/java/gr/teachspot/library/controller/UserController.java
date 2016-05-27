@@ -2,12 +2,14 @@ package gr.teachspot.library.controller;
 
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.domain.Lesson;
+import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.enumeration.ResponseStatus;
 import gr.teachspot.library.enumeration.SessionAttribute;
 import gr.teachspot.library.enumeration.UserStatus;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.ValidationException;
+import gr.teachspot.library.service.EmailService;
 import gr.teachspot.library.service.LessonService;
 import gr.teachspot.library.service.UserService;
 import gr.teachspot.library.transport.Response;
@@ -39,9 +41,9 @@ public class UserController extends AbstractController {
 	@Autowired
 	private UserService userService;
 
-	/** The LessonService. */
+	//TODO: Delete after test
 	@Autowired
-	private LessonService lessonService;
+	private EmailService emailService;
 
 	/**
 	 * This method creates a {@link User}.
@@ -172,6 +174,18 @@ public class UserController extends AbstractController {
 		userService.pairRequest(userId, lessonId);
 
 		stopWatch.stop(MODULE + "pairRequest");
+		return new Response<>(null, ResponseStatus.OK);
+	}
+
+	//TODO: Delete this
+	@RequestMapping(value = "{userId}/testPair", method = RequestMethod.POST)
+	public Response<String> testPairRequest(@PathVariable Long userId) throws
+			DataException {
+
+		User user = userService.find(userId);
+		Lesson lesson = new Lesson();
+
+		emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
 		return new Response<>(null, ResponseStatus.OK);
 	}
 

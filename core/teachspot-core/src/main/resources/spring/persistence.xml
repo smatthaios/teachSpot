@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/tx
      http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <jee:jndi-lookup jndi-name="jdbc/boardgames" id="dataSource" cache="true" resource-ref="true"
+    <jee:jndi-lookup jndi-name="jdbc/teachspot" id="dataSource" cache="true" resource-ref="true"
                      lookup-on-startup="true"/>
 
     <!--namedJdbcTemplate is an enhanced version of Spring's jdbcTemplateuses that uses named sql parameters.-->

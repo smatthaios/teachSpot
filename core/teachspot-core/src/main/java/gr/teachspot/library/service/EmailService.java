@@ -1,10 +1,23 @@
 package gr.teachspot.library.service;
 
+import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.User;
+import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.exception.IOException;
 
 /** This interface hold all methods needed to send emails. */
 public interface EmailService {
+
+    /**
+     * Sends a notification of {@link NotificationType notification type} to the {@link User user} about the given {@link Lesson lesson}
+     *
+     * @param user The {@link User user} to be notified.
+     * @param lesson The {@link Lesson lesson} to be notified for.
+     * @param notification The {@link NotificationType type} of the notification.
+     *
+     * @throws IOException If an error occurred while notifying the {@link User user}
+     */
+    void sendNotification(final User user, final Lesson lesson, NotificationType notification) throws IOException;
 
     /**
      * Sends password reminder message for the given {@link User}.
