@@ -12,6 +12,8 @@ import freemarker.template.TemplateException;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -28,10 +30,12 @@ import freemarker.template.Configuration;
 /** This class is the implementation of the {@link gr.teachspot.library.service.EmailService} interface. It also contains methods to initialize and prepare mails */
 @Service
 public class EmailServiceImpl implements EmailService {
+    /** The LOGGER. */
+    private Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     /** The free marker configuration object. */
     @Autowired
-    private Configuration freeMarkerConfigurer1;
+    private Configuration freeMarkerConfigurer;
 
     @Autowired
     private MessageSource messageSource;
@@ -39,6 +43,7 @@ public class EmailServiceImpl implements EmailService {
     /** The constant PASSWORD_REMINDER_EMAIL_TEMPLATE. */
     private final static String PASSWORD_REMINDER_EMAIL_TEMPLATE = "email/passwordReminder.ftl";
     private final static String USER_REGISTRATION_EMAIL_TEMPLATE = "email/userRegistration.ftl";
+    private final static String TEST_EMAIL_TEMPLATE = "email/test.ftl";
 
     @Value("${email.host}")
     private String host;
@@ -61,7 +66,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendNotification(final User user, final Lesson lesson, NotificationType notification) throws IOException{
         //TODO: Change to actual notification
-        initializeEmail(PASSWORD_REMINDER_EMAIL_TEMPLATE, user, "message.pairRequestSubject");
+        initializeEmail(TEST_EMAIL_TEMPLATE, user, "message.pairRequestSubject");
     }
 
     /** {@inheritDoc} */
@@ -94,12 +99,14 @@ public class EmailServiceImpl implements EmailService {
             templateParameters.put("firstName", user.getFirstName());
             templateParameters.put("lastName", user.getLastName());
 
-            final String messageBody = FreeMarkerTemplateUtils.processTemplateIntoString(freeMarkerConfigurer1.getTemplate
+            final String messageBody = FreeMarkerTemplateUtils.processTemplateIntoString(freeMarkerConfigurer.getTemplate
                     (template), templateParameters);
 
             sendEmail(messageSource.getMessage(subject, null, SupportedLanguage.getDefault().getLocale()), messageBody,
                     user.getEmail());
         } catch (java.io.IOException | TemplateException ex) {
+            LOGGER.debug(ex.toString());
+            LOGGER.debug(ex.getMessage());
             throw new DataException(String.format("There was a problem while creating email for User[%s] and template[%s]", user.getId(), template), ex);
         }
     }

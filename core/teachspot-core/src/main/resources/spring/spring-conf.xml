@@ -23,7 +23,7 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <bean id="freeMarkerConfigurer1" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="configuration" ref="freeMarkerConfiguration"/>
     </bean>
 
