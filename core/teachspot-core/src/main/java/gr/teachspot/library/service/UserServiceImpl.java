@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 import java.util.List;
 
 /** The type User service impl contains all the business methods related to a {@link User}. */
@@ -104,13 +102,14 @@ public class UserServiceImpl implements UserService {
 		User user = find(userId);
 		Lesson lesson = lessonService.find(userId);
 
+        String hashToken = getEncodedPassword(user.getEmail() + lesson.getId());
         emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public User update(Long userId, String firstName, String lastName) {
-		User user = find(userId);
+        User user = find(userId);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		return userRepository.update(user);

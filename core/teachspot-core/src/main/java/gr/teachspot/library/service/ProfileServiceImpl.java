@@ -1,6 +1,5 @@
 package gr.teachspot.library.service;
 
-
 import gr.teachspot.library.domain.Profile;
 import gr.teachspot.library.persistence.ProfileRepository;
 import org.slf4j.Logger;
@@ -66,6 +65,16 @@ public class ProfileServiceImpl implements ProfileService {
     public int delete(Long profileId) {
         return profileRepository.delete(profileId);
     }
+
+    /** {@inheritDoc} */
+    /* @Override
+   /* public void pairRequest(Long profileId, Long lessonId) throws LessonNotFoundException, UserNotFoundException {
+        Profile profile = find(profileId);
+        Lesson lesson = lessonService.find(userId);
+
+        String hashToken = getEncodedPassword(user.getEmail() + lesson.getId());
+        emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
+    }*/
 
 
 }
