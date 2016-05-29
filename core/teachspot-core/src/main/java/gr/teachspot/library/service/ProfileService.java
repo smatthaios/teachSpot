@@ -54,6 +54,6 @@ public interface ProfileService {
      * @throws gr.teachspot.library.exception.UserNotFoundException If the {@link User user} wasn't found
      * @throws gr.teachspot.library.exception.LessonNotFoundException If the {@link gr.teachspot.library.domain.Lesson lesson} wasn't found
      */
-    /*void pairRequest(Long userId, Long lessonId);*/
+    void pairRequest(Long userId, Long lessonId);
 
 }

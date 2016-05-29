@@ -12,12 +12,12 @@ public interface EmailService {
      * Sends a notification of {@link NotificationType notification type} to the {@link User user} about the given {@link Lesson lesson}
      *
      * @param user The {@link User user} to be notified.
-     * @param lesson The {@link Lesson lesson} to be notified for.
+     * @param hashToken The hash token for the pair request.
      * @param notification The {@link NotificationType type} of the notification.
      *
      * @throws IOException If an error occurred while notifying the {@link User user}
      */
-    void sendNotification(final User user, final Lesson lesson, NotificationType notification) throws IOException;
+    void sendNotification(final User user, final String hashToken, NotificationType notification) throws IOException;
 
     /**
      * Sends password reminder message for the given {@link User}.

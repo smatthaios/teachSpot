@@ -1,10 +1,14 @@
 package gr.teachspot.library.controller;
 
+import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.service.ProfileService;
+import gr.teachspot.library.transport.Response;
+import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import gr.teachspot.library.enumeration.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,16 +36,15 @@ public class ProfileController extends AbstractController {
 	 * @return a response indicating that pair request was sent successfully.
 	 * @throws gr.teachspot.library.exception.DataException if pair request wasn't sent due to an error
 	 */
-	/*@RequestMapping(value = "{profileId}/lessons/{lessonId}", method = RequestMethod.POST, headers = "action=pairRequest")
+	@RequestMapping(value = "{profileId}/lessons/{lessonId}", method = RequestMethod.POST, headers = "action=pairRequest")
 	public Response<String> pairRequest(@PathVariable Long profileId, @PathVariable Long lessonId) throws
-			DataException {
+            DataException {
 		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
-
 		LOGGER.info("Sending pair request to Profile[id:{}] for Lesson[Id:{}].", profileId, lessonId);
 
 		profileService.pairRequest(profileId, lessonId);
 
 		stopWatch.stop(MODULE + "pairRequest");
 		return new Response<>(null, ResponseStatus.OK);
-	}*/
+	}
 }

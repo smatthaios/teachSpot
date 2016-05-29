@@ -43,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
     /** The constant PASSWORD_REMINDER_EMAIL_TEMPLATE. */
     private final static String PASSWORD_REMINDER_EMAIL_TEMPLATE = "email/passwordReminder.ftl";
     private final static String USER_REGISTRATION_EMAIL_TEMPLATE = "email/userRegistration.ftl";
-    private final static String TEST_EMAIL_TEMPLATE = "email/test.ftl";
+    private final static String PAIR_REQUEST_EMAIL_TEMPLATE = "email/pairRequest.ftl";
 
     @Value("${email.host}")
     private String host;
@@ -64,9 +64,8 @@ public class EmailServiceImpl implements EmailService {
 
     /** {@inheritDoc} */
     @Override
-    public void sendNotification(final User user, final Lesson lesson, NotificationType notification) throws IOException{
-        //TODO: Change to actual notification
-        initializeEmail(TEST_EMAIL_TEMPLATE, user, "message.pairRequestSubject");
+    public void sendNotification(final User user, final String hashToken, NotificationType notification) throws IOException {
+        initializePairRequestEmail(PAIR_REQUEST_EMAIL_TEMPLATE, user,  hashToken, "message.pairRequestSubject");
     }
 
     /** {@inheritDoc} */
@@ -96,6 +95,36 @@ public class EmailServiceImpl implements EmailService {
             final Map<String, Object> templateParameters = prepareTemplateParameters();
 
             templateParameters.put("token", user.getPasswordToken());
+            templateParameters.put("firstName", user.getFirstName());
+            templateParameters.put("lastName", user.getLastName());
+
+            final String messageBody = FreeMarkerTemplateUtils.processTemplateIntoString(freeMarkerConfigurer.getTemplate
+                    (template), templateParameters);
+
+            sendEmail(messageSource.getMessage(subject, null, SupportedLanguage.getDefault().getLocale()), messageBody,
+                    user.getEmail());
+        } catch (java.io.IOException | TemplateException ex) {
+            LOGGER.debug(ex.toString());
+            LOGGER.debug(ex.getMessage());
+            throw new DataException(String.format("There was a problem while creating email for User[%s] and template[%s]", user.getId(), template), ex);
+        }
+    }
+
+    /**
+     * Initialize a pair request Email method that creates the email to be sent.
+     *
+     * @param template the template of the email
+     * @param user the {@link gr.teachspot.library.domain.User} to which the email will be sent
+     * @param subject  the emails subject
+     *
+     * @throws gr.teachspot.library.exception.IOException If there was a problem while sending the email.
+     * @throws gr.teachspot.library.exception.DataException If there was a problem while creating the email.
+     */
+    private void initializePairRequestEmail(String template, User user, String hashToken, String subject) throws IOException, DataException{
+        try {
+            final Map<String, Object> templateParameters = prepareTemplateParameters();
+
+            templateParameters.put("token", hashToken);
             templateParameters.put("firstName", user.getFirstName());
             templateParameters.put("lastName", user.getLastName());
 

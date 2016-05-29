@@ -2,15 +2,11 @@ package gr.teachspot.library.controller;
 
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.domain.Lesson;
-import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.enumeration.ResponseStatus;
 import gr.teachspot.library.enumeration.SessionAttribute;
-import gr.teachspot.library.enumeration.UserStatus;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.ValidationException;
-import gr.teachspot.library.service.EmailService;
-import gr.teachspot.library.service.LessonService;
 import gr.teachspot.library.service.UserService;
 import gr.teachspot.library.transport.Response;
 import org.perf4j.slf4j.Slf4JStopWatch;
@@ -40,10 +36,6 @@ public class UserController extends AbstractController {
 	/** The UserService. */
 	@Autowired
 	private UserService userService;
-
-	//TODO: Delete after test
-	@Autowired
-	private EmailService emailService;
 
 	/**
 	 * This method creates a {@link User}.
@@ -154,39 +146,6 @@ public class UserController extends AbstractController {
 
 		stopWatch.stop(MODULE + "find");
 		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
-	}
-
-	/**
-	 * Sends a pair request for the specific {@link User user} given his/hers id and the provided {@link Lesson lesson}
-	 *
-	 * @param userId the {@link User user} id of the {@link User user} that we want to pair.
-	 * @param lessonId the {@link Lesson lesson} id of the {@link Lesson lesson} we want to pair with.
-	 * @return a response indicating that pair request was sent successfully.
-	 * @throws DataException if pair request wasn't sent due to an error
-	 */
-	@RequestMapping(value = "{userId}/lessons/{lessonId}", method = RequestMethod.POST, headers = "action=pairRequest")
-	public Response<String> pairRequest(@PathVariable Long userId, @PathVariable Long lessonId) throws
-			DataException {
-		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
-
-		LOGGER.info("Sending pair request to User[id:{}] for Lesson[Id:{}].", userId, lessonId);
-
-		userService.pairRequest(userId, lessonId);
-
-		stopWatch.stop(MODULE + "pairRequest");
-		return new Response<>(null, ResponseStatus.OK);
-	}
-
-	//TODO: Delete this
-	@RequestMapping(value = "{userId}/testPair", method = RequestMethod.POST)
-	public Response<String> testPairRequest(@PathVariable Long userId) throws
-			DataException {
-
-		User user = userService.find(userId);
-		Lesson lesson = new Lesson();
-
-		emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
-		return new Response<>(null, ResponseStatus.OK);
 	}
 
 	/**
