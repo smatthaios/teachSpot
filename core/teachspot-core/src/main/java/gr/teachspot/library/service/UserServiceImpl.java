@@ -1,12 +1,9 @@
 package gr.teachspot.library.service;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
-import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.enumeration.FaultReason;
-import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.enumeration.UserStatus;
-import gr.teachspot.library.exception.LessonNotFoundException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.UserNotFoundException;
 import gr.teachspot.library.exception.ValidationException;
@@ -32,14 +29,6 @@ public class UserServiceImpl implements UserService {
 	/** The User Repository. */
 	@Autowired
 	private UserRepository userRepository;
-
-	/** The User Service. */
-	@Autowired
-	private LessonService lessonService;
-
-	/** The Email Service. */
-	@Autowired
-	private EmailService emailService;
 
 	/** The constant PASSWORD_SALT is used for password encoding. */
 	private static final String PASSWORD_SALT = "PWD_TS";
@@ -94,16 +83,6 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return users.get(0);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public void pairRequest(Long userId, Long lessonId) throws LessonNotFoundException, UserNotFoundException{
-		User user = find(userId);
-		Lesson lesson = lessonService.find(userId);
-
-        String hashToken = getEncodedPassword(user.getEmail() + lesson.getId());
-        emailService.sendNotification(user, lesson, NotificationType.PAIR_REQUEST);
 	}
 
 	/** {@inheritDoc} */

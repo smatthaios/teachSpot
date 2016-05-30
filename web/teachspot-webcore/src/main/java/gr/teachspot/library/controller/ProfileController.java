@@ -47,4 +47,21 @@ public class ProfileController extends AbstractController {
 		stopWatch.stop(MODULE + "pairRequest");
 		return new Response<>(null, ResponseStatus.OK);
 	}
+
+	/**
+	 * Sends a pair request for the specific {@link gr.teachspot.library.domain.User user} given his/hers id and the provided {@link gr.teachspot.library.domain.Lesson lesson}
+	 *
+	 * @param hashToken the hash token to search for the pair request.
+	 * @return a response indicating that pair was accepted successfully.
+	 * @throws gr.teachspot.library.exception.DataException if pair request wasn't sent due to an error
+	 */
+	@RequestMapping(value = "{profileId}/pairAccept", method = RequestMethod.GET)
+	public Response<String> pairAccept(@PathVariable Long profileId, @RequestParam String hashToken) throws
+            DataException {
+		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
+
+
+		stopWatch.stop(MODULE + "pairAccept");
+		return new Response<>(null, ResponseStatus.OK);
+	}
 }

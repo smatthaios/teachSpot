@@ -108,14 +108,13 @@ public class ProfileServiceImpl implements ProfileService {
     /** {@inheritDoc} */
      @Override
     public void pairRequest(Long profileId, Long lessonId) throws LessonNotFoundException, UserNotFoundException {
-        Profile profile = find(profileId);
         Lesson lesson = lessonService.find(lessonId);
 
          UserProfile userProfile = userProfileRepository.find(profileId);
          User user = userService.find(userProfile.getUserId());
 
         String hashToken = getEncodedPassword(user.getEmail() + lesson.getId());
-        emailService.sendNotification(user, hashToken, NotificationType.PAIR_REQUEST);
+        emailService.sendNotification(user, lesson, hashToken, NotificationType.PAIR_REQUEST);
     }
 
     /**

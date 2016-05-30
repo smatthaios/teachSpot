@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 import java.util.HashMap;
@@ -61,11 +60,13 @@ public class EmailServiceImpl implements EmailService {
     private String senderName;
     @Value("${email.encoding}")
     private String encoding;
+    @Value("${email.pairRequestUrl}")
+    private String pairRequestUrl;
 
     /** {@inheritDoc} */
     @Override
-    public void sendNotification(final User user, final String hashToken, NotificationType notification) throws IOException {
-        initializePairRequestEmail(PAIR_REQUEST_EMAIL_TEMPLATE, user,  hashToken, "message.pairRequestSubject");
+    public void sendNotification(final User user, final Lesson lesson, final String hashToken, NotificationType notification) throws IOException {
+        initializePairRequestEmail(PAIR_REQUEST_EMAIL_TEMPLATE, user,  lesson,  hashToken, "message.pairRequestSubject");
     }
 
     /** {@inheritDoc} */
@@ -113,20 +114,23 @@ public class EmailServiceImpl implements EmailService {
     /**
      * Initialize a pair request Email method that creates the email to be sent.
      *
-     * @param template the template of the email
-     * @param user the {@link gr.teachspot.library.domain.User} to which the email will be sent
+     * @param template the template of the email.
+     * @param user the {@link gr.teachspot.library.domain.User} to which the email will be sent.
+     * @param user the {@link gr.teachspot.library.domain.Lesson} to pair with.
      * @param subject  the emails subject
      *
      * @throws gr.teachspot.library.exception.IOException If there was a problem while sending the email.
      * @throws gr.teachspot.library.exception.DataException If there was a problem while creating the email.
      */
-    private void initializePairRequestEmail(String template, User user, String hashToken, String subject) throws IOException, DataException{
+    private void initializePairRequestEmail(String template, User user, Lesson lesson, String hashToken, String subject) throws IOException, DataException{
         try {
             final Map<String, Object> templateParameters = prepareTemplateParameters();
 
             templateParameters.put("token", hashToken);
+            templateParameters.put("pairRequestUrl", pairRequestUrl);
             templateParameters.put("firstName", user.getFirstName());
             templateParameters.put("lastName", user.getLastName());
+            templateParameters.put("lessonName", lesson.getName());
 
             final String messageBody = FreeMarkerTemplateUtils.processTemplateIntoString(freeMarkerConfigurer.getTemplate
                     (template), templateParameters);

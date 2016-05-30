@@ -125,15 +125,4 @@ public interface UserService {
      * @throws UserNotFoundException If the {@link User user} wasn't found
 	 */
 	User find(String username) throws UserNotFoundException;
-
-    /**
-     * Sends a pair request for the {@link Lesson lesson} to the {@link User user}.
-     *
-     * @param userId The {@link User} id of the {@link User user} we want to pair
-     * @param lessonId The {@link Lesson} id of the {@link Lesson lesson} to pair with
-     *
-     * @throws UserNotFoundException If the {@link User user} wasn't found
-     * @throws LessonNotFoundException If the {@link Lesson lesson} wasn't found
-     */
-	void pairRequest(Long userId, Long lessonId);
 }
