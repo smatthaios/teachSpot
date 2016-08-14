@@ -13,5 +13,5 @@ public enum ProfileType {
 	/** This role indicates that the user is a teacher that has private lessons. */
 	PRIVATE_TEACHER,
 	/** This role indicates that the user is a teacher working for a school. */
-	SCHOOL_TEACHER;
+	SCHOOL_TEACHER
 }

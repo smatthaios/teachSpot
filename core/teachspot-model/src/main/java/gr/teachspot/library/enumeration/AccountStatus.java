@@ -7,5 +7,5 @@ public enum AccountStatus {
 	/** Indicates an account as not active. */
 	INACTIVE,
 	/** Indicates an account as locked. */
-	LOCKED;
+	LOCKED
 }
