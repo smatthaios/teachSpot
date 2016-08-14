@@ -12,9 +12,22 @@ public enum Subject {
     CHEMISTRY(6),
     DEFAULT(7);
 
-    private final int code;
+    private int code;
 
-    Subject(int code) {
+    Subject(final int code) {
         this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public static Subject get(final int code) {
+        for (final Subject subject : Subject.values()) {
+            if (subject.getCode() == code) {
+                return subject;
+            }
+        }
+        return DEFAULT;
     }
 }

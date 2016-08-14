@@ -12,9 +12,22 @@ public enum SchoolLevel {
     SIXTH(6),
     DEFAULT(7);
 
-    private final int code;
+    private int code;
 
-    SchoolLevel(int code) {
+    SchoolLevel(final int code) {
         this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public static SchoolLevel get(final int code) {
+        for (final SchoolLevel schoolLevel : SchoolLevel.values()) {
+            if (schoolLevel.getCode() == code) {
+                return schoolLevel;
+            }
+        }
+        return DEFAULT;
     }
 }
