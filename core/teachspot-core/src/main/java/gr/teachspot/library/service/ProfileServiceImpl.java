@@ -114,6 +114,7 @@ public class ProfileServiceImpl implements ProfileService {
          User user = userService.find(userProfile.getUserId());
 
         String hashToken = getEncodedPassword(user.getEmail() + lesson.getId());
+         //TODO: Add token to Database (new table f_user_profile_lessons)
         emailService.sendNotification(user, lesson, hashToken, NotificationType.PAIR_REQUEST);
     }
 

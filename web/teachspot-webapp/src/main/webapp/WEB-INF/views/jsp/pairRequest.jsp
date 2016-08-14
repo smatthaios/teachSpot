@@ -18,7 +18,7 @@
 			<div class="space-32"></div>
 			<form autocomplete="off" class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-2 col-sm-10">
 				<div class="grid2">
-					<div class="b"><fmt:message key="general.label.newPassword" />:</div>ASDASD
+					<div class="b"><fmt:message key="general.label.newPassword" />:</div>
 					<div class="input-group form-group">
                         <span class="input-group-addon">
                             <i class="icon-key smaller-80"></i>
