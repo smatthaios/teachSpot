@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import gr.teachspot.library.enumeration.ProfileType;
 import gr.teachspot.library.enumeration.UserStatus;
 
+import java.util.List;
+
 /**
  * The type {@link User} represents the user entity of the application.
  */
@@ -45,9 +47,9 @@ public class User extends LoggableEntity {
     private UserStatus status;
 
     /**
-     * The User's profile.
+     * The User's profiles.
      */
-    private Profile profile;
+    private List<Profile> profiles;
 
     /**
      * The Username.
@@ -81,21 +83,21 @@ public class User extends LoggableEntity {
     }
 
     /**
-     * Gets profile.
+     * Gets profiles.
      *
-     * @return the profile
+     * @return the profiles
      */
-    public Profile getProfile() {
-        return profile;
+    public List<Profile> getProfiles() {
+        return profiles;
     }
 
     /**
-     * Sets profile.
+     * Sets profiles.
      *
-     * @param profile the profile
+     * @param profiles the profiles
      */
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
     }
 
     /**
@@ -235,22 +237,22 @@ public class User extends LoggableEntity {
     }
 
     /**
-     * Creates the string representation of the {@link gr.teachspot.library.domain.User}.
+     * Creates the string representation of the {@link User}.
      *
-     * @return String representing the {@link gr.teachspot.library.domain.User}
+     * @return String representing the {@link User}
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("firstName='").append(firstName).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", passwordToken='").append(passwordToken).append('\'');
-        sb.append(", status=").append(status);
-        sb.append(", username='").append(username).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordToken='" + passwordToken + '\'' +
+                ", status=" + status +
+                ", profiles=" + profiles +
+                ", username='" + username + '\'' +
+                '}';
     }
 
     /**

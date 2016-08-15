@@ -38,7 +38,7 @@ public class Account extends LoggableEntity implements Serializable {
 	/**
 	 * The Child account ids.
 	 */
-	private List<String> childAccountIds;
+	private List<Long> childAccountIds;
 
 	/**
 	 * The Parent account id.
@@ -85,7 +85,7 @@ public class Account extends LoggableEntity implements Serializable {
 	 *
 	 * @return the child account ids
 	 */
-	public List<String> getChildAccountIds() {
+	public List<Long> getChildAccountIds() {
 		return childAccountIds;
 	}
 
@@ -94,7 +94,7 @@ public class Account extends LoggableEntity implements Serializable {
 	 *
 	 * @param childAccountIds the child account ids
 	 */
-	public void setChildAccountIds(final List<String> childAccountIds) {
+	public void setChildAccountIds(final List<Long> childAccountIds) {
 		this.childAccountIds = childAccountIds;
 	}
 

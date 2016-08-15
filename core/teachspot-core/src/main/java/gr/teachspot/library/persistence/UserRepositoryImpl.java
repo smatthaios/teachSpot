@@ -57,7 +57,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 	public User update(User user) {
 		try {
 			MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-			namedParameters.addValue("user_id", Integer.parseInt(user.getId()));
+			namedParameters.addValue("user_id", user.getId());
 			namedParameters.addValue("email", user.getEmail());
 			namedParameters.addValue("password", user.getPassword());
 			namedParameters.addValue("first_name", user.getFirstName());
@@ -74,7 +74,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 	private RowMapper<User> getUserRowMapper() {
 		return (rs, rowNum) -> {
 			User user = new User();
-			user.setId(rs.getString(1));
+			user.setId(rs.getLong(1));
 			user.setEmail(rs.getString(2));
 			user.setPassword(rs.getString(3));
 			user.setFirstName(rs.getString(4));

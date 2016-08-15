@@ -131,6 +131,20 @@ public abstract class AbstractController {
 	}
 
 	/**
+	 * Retrieves the logged in user active profile id from the {@link javax.servlet.http.HttpSession}.
+	 *
+	 * @param request the {@link javax.servlet.http.HttpServletRequest}
+	 * @return the logged in user's active profile id
+	 */
+	protected Long getActiveUserProfileId(HttpServletRequest request) {
+		if (WebUtils.getSessionAttribute(request, (SessionAttribute.ACTIVE_USER_PROFILE_ID.name())) != null) {
+			return Long.parseLong(WebUtils.getSessionAttribute(request, (SessionAttribute.ACTIVE_USER_PROFILE_ID.name())).toString());
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Returns true if the user has administrator rights.
 	 *
 	 * @param user - the user to check

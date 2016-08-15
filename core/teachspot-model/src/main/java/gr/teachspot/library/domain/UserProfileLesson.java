@@ -1,5 +1,7 @@
 package gr.teachspot.library.domain;
 
+import java.util.Date;
+
 /**
  * The type {@link UserProfileLesson} represents the entity of the application that combines a user profile with a lesson
  */
@@ -19,6 +21,11 @@ public class UserProfileLesson {
      * The token
      */
     private String token;
+
+    /**
+     * The token
+     */
+    private Date tokenDate;
 
     public UserProfileLesson(Long profileId, Long lessonId) {
         this.profileId = profileId;
@@ -49,11 +56,21 @@ public class UserProfileLesson {
         this.token = token;
     }
 
+    public Date getTokenDate() {
+        return tokenDate;
+    }
+
+    public void setTokenDate(Date tokenDate) {
+        this.tokenDate = tokenDate;
+    }
+
     @Override
     public String toString() {
         return "UserProfileLesson{" +
                 "profileId=" + profileId +
                 ", lessonId=" + lessonId +
+                ", token='" + token + '\'' +
+                ", tokenDate=" + tokenDate +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package gr.teachspot.library.service;
 
 import gr.teachspot.library.domain.Lesson;
+import gr.teachspot.library.domain.Notification;
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.exception.IOException;
@@ -9,16 +10,13 @@ import gr.teachspot.library.exception.IOException;
 public interface EmailService {
 
     /**
-     * Sends a notification of {@link NotificationType notification type} to the {@link User user} about the given {@link Lesson lesson}
+     * Sends a pair request notification of {@link NotificationType notification type} to the {@link User users} email about the given {@link Lesson lesson}
      *
-     * @param user The {@link User user} to be notified.
-     * @param user The {@link Lesson lesson} to pair with.
-     * @param hashToken The hash token for the pair request.
-     * @param notification The {@link NotificationType type} of the notification.
+     * @param notification The {@link Notification notification} to be send.
      *
      * @throws IOException If an error occurred while notifying the {@link User user}
      */
-    void sendNotification(final User user, final Lesson lesson, final String hashToken, NotificationType notification) throws IOException;
+    void sendNotification(Notification notification) throws IOException;
 
     /**
      * Sends password reminder message for the given {@link User}.

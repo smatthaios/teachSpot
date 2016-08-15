@@ -1,13 +1,12 @@
 package gr.teachspot.library.service;
 
-import gr.teachspot.library.domain.Lesson;
-import gr.teachspot.library.domain.Profile;
-import gr.teachspot.library.domain.User;
+import gr.teachspot.library.domain.*;
 import gr.teachspot.library.domain.dto.UserProfile;
 import gr.teachspot.library.enumeration.NotificationType;
 import gr.teachspot.library.exception.LessonNotFoundException;
 import gr.teachspot.library.exception.UserNotFoundException;
 import gr.teachspot.library.persistence.ProfileRepository;
+import gr.teachspot.library.persistence.UserProfileLessonRepository;
 import gr.teachspot.library.persistence.UserProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +57,12 @@ public class ProfileServiceImpl implements ProfileService {
      */
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    /**
+     * The User Profile/Lesson Repository.
+     */
+    @Autowired
+    private UserProfileLessonRepository userProfileLessonRepository;
 
     /** The Password encoder used for password encoding purposes. */
     @Autowired
@@ -107,15 +113,40 @@ public class ProfileServiceImpl implements ProfileService {
 
     /** {@inheritDoc} */
      @Override
-    public void pairRequest(Long profileId, Long lessonId) throws LessonNotFoundException, UserNotFoundException {
+    public void pairRequest(Long activeProfileId, Long lessonId, Long profileId) throws LessonNotFoundException, UserNotFoundException {
         Lesson lesson = lessonService.find(lessonId);
 
          UserProfile userProfile = userProfileRepository.find(profileId);
-         User user = userService.find(userProfile.getUserId());
+         UserProfile activeUserProfile = userProfileRepository.find(activeProfileId);
+         User userToPair = userService.find(userProfile.getUserId());
+         User activeUser = userService.find(activeUserProfile.getUserId());
 
-        String hashToken = getEncodedPassword(user.getEmail() + lesson.getId());
-         //TODO: Add token to Database (new table f_user_profile_lessons)
-        emailService.sendNotification(user, lesson, hashToken, NotificationType.PAIR_REQUEST);
+        String hashToken = getEncodedPassword(activeUser.getEmail() + lesson.getId());
+        Date today = new Date();
+        userProfileLessonRepository.update(activeProfileId, lessonId, hashToken, today);
+
+         PairRequestNotification notification = new PairRequestNotification();
+         notification.setEmail(userToPair.getEmail());
+         notification.setProfileId(profileId);
+         notification.setType(NotificationType.PAIR_REQUEST);
+         notification.setToken(hashToken);
+         notification.setFirstName(userToPair.getFirstName());
+         notification.setLastName(userToPair.getLastName());
+         notification.setLessonName(lesson.getName());
+
+        emailService.sendNotification(notification);
+    }
+
+    /** {@inheritDoc} */
+     @Override
+    public void pairAccept(Long profileId, String token) {
+         UserProfileLesson userProfileLesson = userProfileLessonRepository.find(token);
+         //TODO: Check token date
+
+         userProfileLessonRepository.update(userProfileLesson.getProfileId(), userProfileLesson.getLessonId(), null, null);
+
+         userProfileLesson.setProfileId(profileId);
+         userProfileLessonRepository.save(userProfileLesson);
     }
 
     /**

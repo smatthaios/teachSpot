@@ -1,5 +1,6 @@
 package gr.teachspot.library.controller;
 
+import gr.teachspot.library.domain.User;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.service.ProfileService;
 import gr.teachspot.library.transport.Response;
@@ -37,12 +38,13 @@ public class ProfileController extends AbstractController {
 	 * @throws gr.teachspot.library.exception.DataException if pair request wasn't sent due to an error
 	 */
 	@RequestMapping(value = "{profileId}/lessons/{lessonId}", method = RequestMethod.POST, headers = "action=pairRequest")
-	public Response<String> pairRequest(@PathVariable Long profileId, @PathVariable Long lessonId) throws
+	public Response<String> pairRequest(HttpServletRequest request, @PathVariable Long profileId, @PathVariable Long lessonId) throws
             DataException {
 		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
-		LOGGER.info("Sending pair request to Profile[id:{}] for Lesson[Id:{}].", profileId, lessonId);
+		Long activeProfileId = 1l;//getActiveUserProfileId(request);
+		LOGGER.info("Sending pair request for Lesson[Id:{}] from Profile[id:{}] to Profile[id:{}].", activeProfileId, lessonId, profileId);
 
-		profileService.pairRequest(profileId, lessonId);
+		profileService.pairRequest(activeProfileId, lessonId, profileId);
 
 		stopWatch.stop(MODULE + "pairRequest");
 		return new Response<>(null, ResponseStatus.OK);
@@ -60,6 +62,7 @@ public class ProfileController extends AbstractController {
             DataException {
 		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
 
+		profileService.pairAccept(profileId, hashToken);
 
 		stopWatch.stop(MODULE + "pairAccept");
 		return new Response<>(null, ResponseStatus.OK);

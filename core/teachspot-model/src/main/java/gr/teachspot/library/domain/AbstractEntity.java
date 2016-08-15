@@ -14,7 +14,7 @@ public abstract class AbstractEntity implements Serializable {
 
 	/** The id of the entity. */
 	@Id
-	protected String id;
+	protected Long id;
 
 	/**
 	 * The _ class field is used while persisting entity at database.
@@ -26,7 +26,7 @@ public abstract class AbstractEntity implements Serializable {
 	 *
 	 * @return the id of the entity
 	 */
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -35,7 +35,7 @@ public abstract class AbstractEntity implements Serializable {
 	 *
 	 * @param id the id of the entity
 	 */
-	public void setId(final String id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

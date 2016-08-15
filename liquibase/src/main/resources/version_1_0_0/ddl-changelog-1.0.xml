@@ -231,6 +231,51 @@
         </sql>
     </changeSet>
 
+    <changeSet author="admin" id="addAdminProfile">
+        <sql>INSERT INTO public.f_profiles(
+            profile_id, name)
+            VALUES (2, 'ADMINISTRATOR');
+
+            <comment>Insert admin profile</comment>
+        </sql>
+    </changeSet>
+
+    <changeSet author="admin" id="addAdminUserProfile">
+        <sql>INSERT INTO public.f_user_profiles(
+            user_profile_id, user_id, profile_id)
+            VALUES (1, 1, 2);
+
+            <comment>Insert admin user PROFILE</comment>
+        </sql>
+    </changeSet>
+
+    <changeSet author="admin" id="addTestStudentUser">
+        <sql>INSERT INTO public.f_users(
+            email, password, first_name, last_name)
+            VALUES ('stelios.matthaios@hotmail.com', '9ce4076677e353084ac30a3d09d8812b', 'test', 'test');
+
+            <comment>Insert test Student user (password: admin)</comment>
+        </sql>
+    </changeSet>
+
+    <changeSet author="admin" id="addTestStudentProfile">
+        <sql>INSERT INTO public.f_profiles(
+            profile_id, name)
+            VALUES (1, 'STUDENT');
+
+            <comment>Insert test Student profile</comment>
+        </sql>
+    </changeSet>
+
+    <changeSet author="admin" id="addTestStudentUserProfile">
+        <sql>INSERT INTO public.f_user_profiles(
+            user_profile_id, user_id, profile_id)
+            VALUES (2, 2, 1);
+
+            <comment>Insert test Student user PROFILE</comment>
+        </sql>
+    </changeSet>
+
 
 
 </databaseChangeLog>

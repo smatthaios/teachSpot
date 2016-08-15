@@ -1,8 +1,8 @@
 package gr.teachspot.library.service;
 
-import gr.teachspot.library.domain.Lesson;
+import gr.teachspot.library.domain.Notification;
 import gr.teachspot.library.domain.User;
-import gr.teachspot.library.enumeration.NotificationType;
+import gr.teachspot.library.domain.PairRequestNotification;
 import gr.teachspot.library.enumeration.SupportedLanguage;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.exception.EmailException;
@@ -22,8 +22,6 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
-
-import freemarker.template.Configuration;
 
 
 /** This class is the implementation of the {@link gr.teachspot.library.service.EmailService} interface. It also contains methods to initialize and prepare mails */
@@ -65,8 +63,15 @@ public class EmailServiceImpl implements EmailService {
 
     /** {@inheritDoc} */
     @Override
-    public void sendNotification(final User user, final Lesson lesson, final String hashToken, NotificationType notification) throws IOException {
-        initializePairRequestEmail(PAIR_REQUEST_EMAIL_TEMPLATE, user,  lesson,  hashToken, "message.pairRequestSubject");
+    public void sendNotification(Notification notification) throws IOException {
+        //TODO: Change the switch statement with pattern
+        switch(notification.getType()) {
+            case PAIR_REQUEST:
+                initializePairRequestEmail(PAIR_REQUEST_EMAIL_TEMPLATE, (PairRequestNotification) notification, "message.pairRequestSubject");
+                break;
+            default:
+                break;
+        }
     }
 
     /** {@inheritDoc} */
@@ -115,32 +120,32 @@ public class EmailServiceImpl implements EmailService {
      * Initialize a pair request Email method that creates the email to be sent.
      *
      * @param template the template of the email.
-     * @param user the {@link gr.teachspot.library.domain.User} to which the email will be sent.
-     * @param user the {@link gr.teachspot.library.domain.Lesson} to pair with.
+     * @param notification the {@link PairRequestNotification} to be sent.
      * @param subject  the emails subject
      *
      * @throws gr.teachspot.library.exception.IOException If there was a problem while sending the email.
      * @throws gr.teachspot.library.exception.DataException If there was a problem while creating the email.
      */
-    private void initializePairRequestEmail(String template, User user, Lesson lesson, String hashToken, String subject) throws IOException, DataException{
+    private void initializePairRequestEmail(String template, PairRequestNotification notification, String subject) throws IOException, DataException{
         try {
             final Map<String, Object> templateParameters = prepareTemplateParameters();
 
-            templateParameters.put("token", hashToken);
+            templateParameters.put("token", notification.getToken());
+            templateParameters.put("profileId", notification.getProfileId());
             templateParameters.put("pairRequestUrl", pairRequestUrl);
-            templateParameters.put("firstName", user.getFirstName());
-            templateParameters.put("lastName", user.getLastName());
-            templateParameters.put("lessonName", lesson.getName());
+            templateParameters.put("firstName", notification.getFirstName());
+            templateParameters.put("lastName", notification.getLastName());
+            templateParameters.put("lessonName", notification.getLessonName());
 
             final String messageBody = FreeMarkerTemplateUtils.processTemplateIntoString(freeMarkerConfigurer.getTemplate
                     (template), templateParameters);
 
             sendEmail(messageSource.getMessage(subject, null, SupportedLanguage.getDefault().getLocale()), messageBody,
-                    user.getEmail());
+                    notification.getEmail());
         } catch (java.io.IOException | TemplateException ex) {
             LOGGER.debug(ex.toString());
             LOGGER.debug(ex.getMessage());
-            throw new DataException(String.format("There was a problem while creating email for User[%s] and template[%s]", user.getId(), template), ex);
+            throw new DataException(String.format("There was a problem while creating email for User[%s] and template[%s]", notification.getEmail(), template), ex);
         }
     }
 

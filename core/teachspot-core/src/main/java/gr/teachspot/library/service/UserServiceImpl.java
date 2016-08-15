@@ -1,10 +1,7 @@
 package gr.teachspot.library.service;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
-import gr.teachspot.library.domain.Lesson;
-import gr.teachspot.library.domain.UserProfileLesson;
-import gr.teachspot.library.domain.User;
-import gr.teachspot.library.domain.UserAttribute;
+import gr.teachspot.library.domain.*;
 import gr.teachspot.library.enumeration.*;
 import gr.teachspot.library.exception.*;
 import gr.teachspot.library.exception.SecurityException;
@@ -90,7 +87,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			validateUser(user);
 			int userId = userRepository.save(user);
-			validateUserAttributes(user.getProfile().getType(), attributeList);
+			validateUserAttributes(user.getProfiles().get(0).getType(), attributeList);
 			for (UserAttribute userAttribute : attributeList) {
 				userAttributeRepository.save(userAttribute);//todo: make it batch
 			}
@@ -98,7 +95,7 @@ public class UserServiceImpl implements UserService {
 			userProfileRepository.save(profileRepository.find(profileType).getId(), ((Integer)userId).longValue());
 			if (profileType.equals(ProfileType.SCHOOL.name())) {
 				Long lessonId = lessonRepository.save(new Lesson("default", "This is an empty lesson", SchoolLevel.DEFAULT, Subject.DEFAULT));
-				userProfileLessonRepository.save(new UserProfileLesson(user.getProfile().getId(), lessonId));//todo
+				userProfileLessonRepository.save(new UserProfileLesson(user.getProfiles().get(0).getId(), lessonId));//todo
 			}
 		}
 
@@ -110,20 +107,20 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User authenticate(String username, String password) throws SecurityException {
-		List<User> users = userRepository.find(User.FieldName.EMAIL.name(), username.toLowerCase());
+		User user = find(username.toLowerCase());
 
-		if (users == null || users.size() == 0 || users.get(0) == null || !getEncodedPassword(password).equals(users.get(0).getPassword())) {
+		if (user == null || !getEncodedPassword(password).equals(user.getPassword())) {
 			throw new SecurityException(String.format("User credentials for user %s are not valid.", username), FaultReason.USER_NOT_FOUND);
 		}
 
-		if (UserStatus.LOCKED.equals(users.get(0).getStatus())) {
-			throw new SecurityException(String.format("User %s is locked.", users.get(0).getUsername()), FaultReason.USER_LOCKED);
+		if (UserStatus.LOCKED.equals(user.getStatus())) {
+			throw new SecurityException(String.format("User %s is locked.", user.getUsername()), FaultReason.USER_LOCKED);
 		}
 
-		if (UserStatus.INACTIVE.equals(users.get(0).getStatus())) {
-			throw new SecurityException(String.format("User %s is inactive.", users.get(0).getUsername()), FaultReason.USER_INACTIVE);
+		if (UserStatus.INACTIVE.equals(user.getStatus())) {
+			throw new SecurityException(String.format("User %s is inactive.", user.getUsername()), FaultReason.USER_INACTIVE);
 		}
-		return users.get(0);
+		return user;
 	}
 
 	private void validatePassword(final String newPassword) throws ValidationException {
@@ -159,6 +156,9 @@ public class UserServiceImpl implements UserService {
 			throw new UserNotFoundException(String.format("User wasn't found for [id:%s].", userId));
 		}
 
+		List<Profile> profiles = profileRepository.get(userId);
+		user.setProfiles(profiles);
+
 		return user;
 	}
 
@@ -166,14 +166,17 @@ public class UserServiceImpl implements UserService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public User find(String username) throws UserNotFoundException {
-		List<User> users = userRepository.find(User.FieldName.EMAIL.name(), username.toLowerCase());
+	public User find(String email) throws UserNotFoundException {
+		List<User> users = userRepository.find(User.FieldName.EMAIL.name(), email.toLowerCase());
 
 		if (users == null || users.size() == 0 || users.get(0) == null) {
-			throw new SecurityException(String.format("User wasn't found for [username:%s].", username), FaultReason.USER_NOT_FOUND);
+			throw new SecurityException(String.format("User wasn't found for [email:%s].", email), FaultReason.USER_NOT_FOUND);
 		}
+		User foundUser = users.get(0);
+		List<Profile> profiles = profileRepository.get(foundUser.getId());
+		foundUser.setProfiles(profiles);
 
-		return users.get(0);
+		return foundUser;
 	}
 
 	/**

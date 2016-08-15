@@ -15,7 +15,7 @@
 		<tr>
 			<td style="color:#666;font-size:12px;line-height:1.2em;padding:0 20px" colspan="2">
 				A pair request has been created for you.<br><br>
-                <br>Press <a href="${pairRequestUrl}${token}">here</a> If you want to enroll to the ${lessonName}. <br><br>
+                <br>Press <a href="${pairRequestUrl}${profileId}/pairAccept?token=${token}">here</a> If you want to enroll to the ${lessonName}. <br><br>
 				Best Regards,<br>
                 TeachSpot Team
 			</td>

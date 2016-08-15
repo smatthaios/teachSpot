@@ -76,7 +76,7 @@ public class UserController extends AbstractController {
 	public Response<User> create(@RequestParam final UserDto userDto) throws
 			DataException, SecurityException, IOException {
 		LOGGER.info("User[firstName:{},lastName:{},email:{},ProfileType:{},status:{}].", userDto.getUser().getFirstName(), userDto.getUser().getLastName(), userDto.getUser().getEmail(),
-				userDto.getUser().getProfile().getType().name(), userDto.getUser().getStatus());
+				userDto.getUser().getProfiles().get(0).getType().name(), userDto.getUser().getStatus());
 
 		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
 
@@ -103,6 +103,7 @@ public class UserController extends AbstractController {
 
 		User user = userService.authenticate(username, password);
 		session.setAttribute(SessionAttribute.ACTIVE_USER_ID.name(), user.getId());
+		session.setAttribute(SessionAttribute.ACTIVE_USER_PROFILE_ID.name(), user.getProfiles().get(0));
 
 		stopWatch.stop(MODULE + "authenticate");
 		return new Response<>(Arrays.asList(user), ResponseStatus.OK);

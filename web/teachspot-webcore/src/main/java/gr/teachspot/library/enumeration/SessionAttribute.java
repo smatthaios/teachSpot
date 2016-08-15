@@ -4,6 +4,8 @@ package gr.teachspot.library.enumeration;
 public enum SessionAttribute {
     /** The session attribute to store the currently logged-in user id. */
 	ACTIVE_USER_ID,
+    /** The session attribute to store the currently logged-in user profile Id. */
+	ACTIVE_USER_PROFILE_ID,
 	/** The session attribute to store the session's active language. */
 	ACTIVE_LANGUAGE,
 	/** The session attribute to store the currently logged-in user name. */
