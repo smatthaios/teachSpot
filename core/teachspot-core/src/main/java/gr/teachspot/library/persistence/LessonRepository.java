@@ -28,9 +28,9 @@ public interface LessonRepository {
     /**
      * Inserts a {@link Lesson} .
      * @param lesson the {@link Lesson}  to insert
-     * @return the number of rows affected
+     * @return the id of the {@link gr.teachspot.library.domain.Lesson lesson} that was created.
      */
-    int save(Lesson lesson);
+    Long save(Lesson lesson);
 
     /**
      * Updates a {@link Lesson} .

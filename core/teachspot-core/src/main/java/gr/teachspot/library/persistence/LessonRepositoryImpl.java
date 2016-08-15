@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -42,13 +44,7 @@ public class LessonRepositoryImpl extends AbstractRepository implements LessonRe
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("value", lessonId);
-            /*RowMapper<Lesson> mapper = (rs, rowNum) -> {
-                Lesson lesson = new Lesson();
-                lesson.setId(rs.getLong("lesson_id"));
-                lesson.setName(rs.getString("name"));
-                lesson.setDescription(rs.getString("description"));
-                return lesson;
-            };*/
+
             return namedParameterJdbcTemplate.queryForObject(getSqlCommand("LESSON.ID.SELECT"), source, new LessonMapper());
         } catch (final Exception ex) {
             throw new DataException(String.format("Error during getting Lesson for [id:%s]",
@@ -61,13 +57,7 @@ public class LessonRepositoryImpl extends AbstractRepository implements LessonRe
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("value", profileId);
-            /*RowMapper<Lesson> mapper = (rs, rowNum) -> {
-                Lesson lesson = new Lesson();
-                lesson.setId(rs.getLong("lesson_id"));
-                lesson.setName(rs.getString("name"));
-                lesson.setDescription(rs.getString("description"));
-                return lesson;
-            };*/
+
             return namedParameterJdbcTemplate.query(getSqlCommand("LESSON.PROFILE_ID.SELECT"), source, new LessonMapper());
         } catch (final Exception ex) {
             throw new DataException(String.format("Error during getting the list of Lesson for profile [id:%s]",
@@ -76,16 +66,18 @@ public class LessonRepositoryImpl extends AbstractRepository implements LessonRe
     }
 
     @Override
-    public int save(Lesson lesson) {//todo: how to return the id of the inserted lesson
+    public Long save(Lesson lesson) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             final MapSqlParameterSource source = new MapSqlParameterSource();
             source.addValue("value", lesson);
 
-            return namedParameterJdbcTemplate.update(getSqlCommand("LESSON.INSERT"), source);
+            namedParameterJdbcTemplate.update(getSqlCommand("LESSON.INSERT"), source, keyHolder);
         } catch (final Exception ex) {
             throw new DataException(String.format("Error during inserting a Lesson",
                     lesson), ex);
         }
+        return (Long)keyHolder.getKey();
     }
 
     @Override

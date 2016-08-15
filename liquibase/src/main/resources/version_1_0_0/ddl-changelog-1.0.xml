@@ -193,6 +193,21 @@
         </sql>
     </changeSet>
 
+    <changeSet author="admin" id="1.0.0-CREATE_F_USER_LESSON_PAIR_TABLE">
+        <comment>Create the f_user_lesson_pair table.</comment>
+        <createTable tableName="f_user_lesson_pair" remarks="This table stores the pair requests between a User and a Lesson.">
+            <column name="user_id" type="serial"/>
+            <column name="lesson_id" type="serial"/>
+            <column name="tokenRequest" type="varchar(100)"
+                    remarks="Is used to create a pair url unique per profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
+            <column name="requestDate" type="TIMESTAMP"/>
+            <column name="tokenResponse" type="varchar(100)"
+                    remarks="Is used to create a pair url unique per profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
+
+            <column name="responseDate" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
 
 
 

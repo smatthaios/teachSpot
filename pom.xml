@@ -437,6 +437,17 @@
 				<db.username>teachspot</db.username>
 				<db.password>teachspot12</db.password>
 
+				<email.host>smtp.gmail.com</email.host>
+				<email.port>587</email.port>
+				<email.username>teachspot.DreamBig@gmail.com</email.username>
+				<email.password>dr3amB1g</email.password>
+				<email.encoding>UTF-8</email.encoding>
+				<email.tlsEnabled>true</email.tlsEnabled>
+				<email.sender>teachspot.DreamBig@gmail.com</email.sender>
+				<email.sender.name>TeachSpot</email.sender.name>
+				<email.encoding>UTF-8</email.encoding>
+                <email.pairRequestUrl>http://localhost:8080/teachSpot/pairRequest.html?t=</email.pairRequestUrl>
+
 				<wro4j.minimizeResources>false</wro4j.minimizeResources>
 			</properties>
 		</profile>

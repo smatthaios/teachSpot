@@ -45,4 +45,15 @@ public interface ProfileService {
      */
     int delete(Long profileId);
 
+    /**
+     * Sends a pair request for the {@link gr.teachspot.library.domain.Lesson lesson} to the {@link User user}.
+     *
+     * @param userId The {@link User} id of the {@link User user} we want to pair
+     * @param lessonId The {@link gr.teachspot.library.domain.Lesson} id of the {@link gr.teachspot.library.domain.Lesson lesson} to pair with
+     *
+     * @throws gr.teachspot.library.exception.UserNotFoundException If the {@link User user} wasn't found
+     * @throws gr.teachspot.library.exception.LessonNotFoundException If the {@link gr.teachspot.library.domain.Lesson lesson} wasn't found
+     */
+    void pairRequest(Long userId, Long lessonId);
+
 }

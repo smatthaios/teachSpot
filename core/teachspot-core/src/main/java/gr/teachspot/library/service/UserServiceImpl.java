@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 import java.util.List;
 
 /** The type User service impl contains all the business methods related to a {@link User}. */
@@ -31,9 +29,6 @@ public class UserServiceImpl implements UserService {
 	/** The User Repository. */
 	@Autowired
 	private UserRepository userRepository;
-
-	/*@Autowired
-	private EmailService emailService;*/
 
 	/** The constant PASSWORD_SALT is used for password encoding. */
 	private static final String PASSWORD_SALT = "PWD_TS";
@@ -72,7 +67,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.find(userId);
 
 		if (user == null) {
-			throw new SecurityException(String.format("User wasn't found for [id:%s].", userId), FaultReason.USER_NOT_FOUND);
+			throw new UserNotFoundException(String.format("User wasn't found for [id:%s].", userId));
 		}
 
 		return user;
@@ -93,7 +88,7 @@ public class UserServiceImpl implements UserService {
 	/** {@inheritDoc} */
 	@Override
 	public User update(Long userId, String firstName, String lastName) {
-		User user = find(userId);
+        User user = find(userId);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		return userRepository.update(user);

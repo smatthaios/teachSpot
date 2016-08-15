@@ -2,6 +2,7 @@ package gr.teachspot.library.service;
 
 import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.Profile;
+import gr.teachspot.library.exception.LessonNotFoundException;
 
 import java.util.List;
 
@@ -13,8 +14,10 @@ public interface LessonService {
      *
      * @param lessonId The id of the {@link Lesson} to search with
      * @return The {@link Lesson}
+     *
+     * @throws LessonNotFoundException If the {@link Lesson lesson} wasn't found
      */
-    Lesson find(Long lessonId);
+    Lesson find(Long lessonId) throws LessonNotFoundException;
 
     /**
      * Returns a list of {@link Lesson} of the provided profile id.

@@ -1,6 +1,7 @@
 package gr.teachspot.library.controller;
 
 import gr.teachspot.library.domain.User;
+import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.enumeration.ResponseStatus;
 import gr.teachspot.library.enumeration.SessionAttribute;
 import gr.teachspot.library.exception.DataException;

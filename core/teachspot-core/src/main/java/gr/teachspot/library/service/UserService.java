@@ -1,9 +1,11 @@
 package gr.teachspot.library.service;
 
+import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.User;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.exception.IOException;
 import gr.teachspot.library.exception.InvalidTemplateException;
+import gr.teachspot.library.exception.LessonNotFoundException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.UserNotFoundException;
 import gr.teachspot.library.exception.ValidationException;
@@ -109,6 +111,8 @@ public interface UserService {
 	 *
 	 * @param userId The {@link User} id
 	 * @return The {@link User}
+     *
+     * @throws UserNotFoundException If the {@link User user} wasn't found
 	 */
 	User find(Long userId) throws UserNotFoundException;
 
@@ -117,6 +121,8 @@ public interface UserService {
 	 *
 	 * @param username The {@link User} username
 	 * @return The {@link User}
+     *
+     * @throws UserNotFoundException If the {@link User user} wasn't found
 	 */
 	User find(String username) throws UserNotFoundException;
 }
