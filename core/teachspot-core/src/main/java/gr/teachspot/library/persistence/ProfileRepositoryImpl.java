@@ -41,6 +41,18 @@ public class ProfileRepositoryImpl extends AbstractRepository implements Profile
         }
     }
 
+    @Override
+    public Profile find(ProfileType profileType) throws DataException {
+        try {
+            final MapSqlParameterSource source = new MapSqlParameterSource();
+            source.addValue("value", profileType);
+            return namedParameterJdbcTemplate.queryForObject(getSqlCommand("PROFILE.TYPE.SELECT"), source, getProfileRowMapper());
+        } catch (final Exception ex) {
+            throw new DataException(String.format("Error during getting Profile for [type:%s]",
+                    profileType), ex);
+        }
+    }
+
 
     @Override
     public List<Profile> get(Long userId) throws DataException {

@@ -28,6 +28,8 @@
             </column>
             <column name="name" type="varchar(250)"/>
             <column name="description" type="varchar(1000)"/>
+            <column name="school_level" type="smallint"/>
+            <column name="subject" type="varchar(250)"/>
         </createTable>
     </changeSet>
 
@@ -41,7 +43,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="admin" id="1.0.0-CREATE_F_PROFILESE">
+    <changeSet author="admin" id="1.0.0-CREATE_F_PROFILES">
         <comment>Create the f_profiles table.</comment>
         <createTable tableName="f_profiles" remarks="This table stores the profiles of the application.">
             <column autoIncrement="true" name="profile_id" type="serial" remarks="The primary key of this table.">
@@ -52,8 +54,8 @@
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_ATTRIBUTES_TABLE">
-        <comment>Create the f_attribute table.</comment>
-        <createTable tableName="f_attribute" remarks="This table stores the user attributes that differ between user profile.">
+        <comment>Create the f_attributes table.</comment>
+        <createTable tableName="f_attributes" remarks="This table stores the user attributes that differ between user profile.">
             <column autoIncrement="true" name="attribute_id" type="serial" remarks="The primary key of this table.">
                 <constraints primaryKey="true"/>
             </column>
@@ -73,9 +75,9 @@
 
     <changeSet author="admin" id="1.0.0-addPrimaryKey_F_USER_ATTRIBUTE_VALUE_TABLE">
         <addPrimaryKey
-                       columnNames="user_id, attribute_id"
-                       constraintName="pk_f_user_attribute_values"
-                       tableName="f_user_attribute_values"/>
+                columnNames="user_id, attribute_id"
+                constraintName="pk_f_user_attribute_values"
+                tableName="f_user_attribute_values"/>
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_ATTRIBUTE_VALUES_TABLE">
@@ -99,24 +101,18 @@
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"
                                  referencedColumnNames="attribute_id"
-                                 referencedTableName="f_attribute"/>
+                                 referencedTableName="f_attributes"/>
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILES_TABLE">
         <comment>Create the f_user_profiles table.</comment>
         <createTable tableName="f_user_profiles" remarks="This table stores the user profiles.">
+            <column autoIncrement="true" name="user_profile_id" type="serial" remarks="The primary key of this table.">
+                <constraints primaryKey="true"/>
+            </column>
             <column name="user_id" type="serial"/>
             <column name="profile_id" type="serial"/>
-            <column name="token" type="varchar(100)"
-                    remarks="Is used to create a pair url unique per profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
         </createTable>
-    </changeSet>
-
-    <changeSet author="admin" id="1.0.0-addPrimaryKey_F_USER_PROFILES">
-        <addPrimaryKey
-                columnNames="user_id, profile_id"
-                constraintName="pk_f_user_profiles"
-                tableName="f_user_profiles"/>
     </changeSet>
 
     <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILES">
@@ -144,6 +140,48 @@
     </changeSet>
 
 
+
+    <changeSet author="admin" id="1.0.0-CREATE_F_USER_PROFILE_LESSONS">
+        <comment>Create the f_user_profile_lessons table.</comment>
+        <createTable tableName="f_user_profile_lessons" remarks="This table stores the lessons related to a user profile.">
+            <column name="user_profile_id" type="serial"/>
+            <column name="lesson_id" type="serial"/>
+            <column name="token" type="varchar(100)"
+                    remarks="Is used to create a pair url unique per user_profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
+            <column name="token_date" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addPrimaryKey_F_USER_PROFILE_LESSONS">
+        <addPrimaryKey
+                columnNames="user_profile_id, lesson_id"
+                constraintName="pk_f_user_profile_lessons"
+                tableName="f_user_profile_lessons"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILE_LESSONS">
+        <addForeignKeyConstraint baseColumnNames="user_profile_id"
+                                 baseTableName="f_user_profile_lessons"
+                                 constraintName="fk_f_user_profile_lessons_f_user_profiles"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_profile_id"
+                                 referencedTableName="f_user_profiles"/>
+    </changeSet>
+
+    <changeSet author="admin" id="1.0.0-addForeignKeyConstraint_F_USER_PROFILE_LESSONS_2">
+        <addForeignKeyConstraint baseColumnNames="lesson_id"
+                                 baseTableName="f_user_profile_lessons"
+                                 constraintName="fk_f_user_profile_lessons_f_lessons"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="lesson_id"
+                                 referencedTableName="f_lessons"/>
+    </changeSet>
 
     <changeSet author="admin" id="1.0.0-CREATE_F_PROFILE_PERMISSIONS">
         <comment>Create the f_profile_permissions table.</comment>
@@ -186,29 +224,12 @@
 
     <changeSet author="admin" id="addAdminUser">
         <sql>INSERT INTO public.f_users(
-            email, password, first_name)
-            VALUES ('admin', '9ce4076677e353084ac30a3d09d8812b', 'admin');
+            email, password, first_name, last_name)
+            VALUES ('stelios.matthaios@gmail.com', '9ce4076677e353084ac30a3d09d8812b', 'admin', 'admin');
 
             <comment>Insert admin user (password: admin)</comment>
         </sql>
     </changeSet>
-
-    <changeSet author="admin" id="1.0.0-CREATE_F_USER_LESSON_PAIR_TABLE">
-        <comment>Create the f_user_lesson_pair table.</comment>
-        <createTable tableName="f_user_lesson_pair" remarks="This table stores the pair requests between a User and a Lesson.">
-            <column name="user_id" type="serial"/>
-            <column name="lesson_id" type="serial"/>
-            <column name="tokenRequest" type="varchar(100)"
-                    remarks="Is used to create a pair url unique per profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
-            <column name="requestDate" type="TIMESTAMP"/>
-            <column name="tokenResponse" type="varchar(100)"
-                    remarks="Is used to create a pair url unique per profile-lesson. We use this token as a indication of acceptance that a User wants to pair with a lesson"/>
-
-            <column name="responseDate" type="TIMESTAMP"/>
-        </createTable>
-    </changeSet>
-
-
 
 
 

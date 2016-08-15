@@ -50,4 +50,12 @@ public interface UserRepository{
 	 */
 	User update(User user);
 
+	/**
+	 * Saves the given User.
+	 *
+	 * @param user The {@link User} to be saved.
+	 * @return The {@link User}
+	 */
+	int save(User user);
+
 }

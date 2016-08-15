@@ -2,6 +2,7 @@ package gr.teachspot.library.persistence;
 
 import gr.teachspot.library.domain.Profile;
 import gr.teachspot.library.domain.User;
+import gr.teachspot.library.enumeration.ProfileType;
 import gr.teachspot.library.exception.DataException;
 
 import java.util.List;
@@ -18,6 +19,16 @@ public interface ProfileRepository {
      * @throws DataException if an error occurs in the database
      */
     Profile find(Long profileId) throws DataException;
+
+    /**
+     * Return the {@link Profile} for the provided profileType.
+     *
+     * @param profileType The profileType of the {@link Profile} to search with
+     * @return The {@link Profile}
+     *
+     * @throws DataException if an error occurs in the database
+     */
+    Profile find(ProfileType profileType) throws DataException;
 
     /**
      * Return a {@link List} of {@link Profile} for the provided user id.

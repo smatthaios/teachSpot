@@ -2,6 +2,8 @@ package gr.teachspot.library.service;
 
 import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.domain.User;
+import gr.teachspot.library.domain.UserAttribute;
+import gr.teachspot.library.enumeration.ProfileType;
 import gr.teachspot.library.exception.DataException;
 import gr.teachspot.library.exception.IOException;
 import gr.teachspot.library.exception.InvalidTemplateException;
@@ -9,6 +11,8 @@ import gr.teachspot.library.exception.LessonNotFoundException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.UserNotFoundException;
 import gr.teachspot.library.exception.ValidationException;
+
+import java.util.List;
 
 /** The interface User service contains all the business methods related to a {@link User}. */
 public interface UserService {
@@ -125,4 +129,19 @@ public interface UserService {
      * @throws UserNotFoundException If the {@link User user} wasn't found
 	 */
 	User find(String username) throws UserNotFoundException;
+
+	/**
+	 * Create user.
+	 *
+	 * @param user the {@link User}
+	 * @param attributeList the {@link UserAttribute} list
+	 * @return the created
+	 *
+	 * @throws SecurityException the iri security exception
+	 * @throws IOException the iri iO exception
+	 * @throws DataException the iri data exception
+	 * @throws InvalidTemplateException the invalid template exception
+	 */
+	User create(User user, List<UserAttribute> attributeList, ProfileType profileType) throws SecurityException,
+			IOException, DataException, ValidationException;
 }

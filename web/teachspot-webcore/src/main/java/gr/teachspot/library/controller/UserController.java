@@ -5,10 +5,12 @@ import gr.teachspot.library.domain.Lesson;
 import gr.teachspot.library.enumeration.ResponseStatus;
 import gr.teachspot.library.enumeration.SessionAttribute;
 import gr.teachspot.library.exception.DataException;
+import gr.teachspot.library.exception.IOException;
 import gr.teachspot.library.exception.SecurityException;
 import gr.teachspot.library.exception.ValidationException;
 import gr.teachspot.library.service.UserService;
 import gr.teachspot.library.transport.Response;
+import gr.teachspot.library.transport.UserDto;
 import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +64,27 @@ public class UserController extends AbstractController {
 		stopWatch.stop(MODULE + "create");
 		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
 	}*/
+
+	/**
+	 * This method creates a {@link User}.
+	 *
+	 * @param userDto the {@link UserDto}
+	 * @return the response
+	 * @throws DataException when user creation fails
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public Response<User> create(@RequestParam final UserDto userDto) throws
+			DataException, SecurityException, IOException {
+		LOGGER.info("User[firstName:{},lastName:{},email:{},ProfileType:{},status:{}].", userDto.getUser().getFirstName(), userDto.getUser().getLastName(), userDto.getUser().getEmail(),
+				userDto.getUser().getProfile().getType().name(), userDto.getUser().getStatus());
+
+		final Slf4JStopWatch stopWatch = new Slf4JStopWatch();
+
+		User user = userService.create(userDto.getUser(), userDto.getAttributeList(), userDto.getProfileType());
+
+		stopWatch.stop(MODULE + "create");
+		return new Response<>(Arrays.asList(user), ResponseStatus.OK);
+	}
 
 	/**
 	 * Authenticates a {@link User} by checking if the given credentials are correct. If {@link User} is authenticated then email is added in the
