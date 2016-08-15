@@ -83,4 +83,17 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
 			return user;
 		};
 	}
+
+	@Override
+	public int save(User user) {
+		try {
+			final MapSqlParameterSource source = new MapSqlParameterSource();
+			source.addValue("value", user);
+
+			return namedParameterJdbcTemplate.update(getSqlCommand("USER.INSERT"), source);
+		} catch (final Exception ex) {
+			throw new DataException(String.format("Error during inserting a User",
+					user), ex);
+		}
+	}
 }
